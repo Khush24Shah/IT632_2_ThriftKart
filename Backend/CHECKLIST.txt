@@ -1,0 +1,23 @@
+Target till 21st march:
+
+Ekansh,Shailesh
+Authentication
+User profile
+
+Rutvi ,Ananya
+Products
+Cart
+
+
+
+
+
+APIs
+1. products (CRUD)
+2. user login/signup
+3. product reviews
+4. cart
+5. user profile data
+6. admin's report
+7. payment (razorpay api)/ checkout
+8. order details
