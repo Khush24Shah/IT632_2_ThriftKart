@@ -4,10 +4,13 @@ var User = require("../models/customer");
 
 exports.signup = (req, res) => {
 	const user = new User({
+		id: req.body.id,
 		fname: req.body.fname,
 		lname: req.body.lname,
 		email: req.body.email,
 		mobile: req.body.mobile,
+		dob: req.body.dob,
+		address: req.body.address,
 		password: bcrypt.hashSync(req.body.password, 8),
 	});
 
