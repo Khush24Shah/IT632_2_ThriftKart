@@ -1,6 +1,13 @@
 const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
+	const search = 'ab'
+	const Products = await Product.find(
+		{
+    name: { $negex: search, options: 'i' }
+		}
+	)
+res.status(200).json({ Products, nbHits: Products.length});
 	const { featured, company, name, sort, fields, numericFilters } = req.query;
 	const queryObject = {};
 
