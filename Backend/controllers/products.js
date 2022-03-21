@@ -1,46 +1,22 @@
 const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
-	const search = 'ab'
-	const Products = await Product.find(
-		{
-    name: { $negex: search, options: 'i' }
-		}
-	)
-res.status(200).json({ Products, nbHits: Products.length});
-	const { featured, company, name, sort, fields, numericFilters } = req.query;
-	const queryObject = {};
-
+	const { featured, company, name, sort, fields } = req.query;
+	const queryObj = {};
 	if (featured) {
-		queryObject.featured = featured === "true" ? true : false;
+		queryObj.featured = featured === "true" ? true : false;
 	}
 	if (company) {
-		queryObject.company = company;
+		queryObj.company = company;
 	}
 	if (name) {
-		queryObject.name = { $regex: name, $options: "i" };
-	}
-	if (numericFilters) {
-		const operatorMap = {
-			">": "$gt",
-			">=": "$gte",
-			"=": "$eq",
-			"<": "$lt",
-			"<=": "$lte",
-		};
-		const regEx = /\b(<|>|>=|=|<|<=)\b/g;
-		let filters = numericFilters.replace(regEx, (match) => `-${operatorMap[match]}-`);
-		const options = ["price", "rating"];
-		filters = filters.split(",").forEach((item) => {
-			const [field, operator, value] = item.split("-");
-			if (options.includes(field)) {
-				queryObject[field] = { [operator]: Number(value) };
-			}
-		});
+		queryObj.name = { $regex: name, $options: "i" };
 	}
 
-	let result = Product.find(queryObject);
-	// sort
+	//not using await, to get access to query instance, so that we can use chaining operations.
+	let result = Product.find(queryObj);
+
+	//sort
 	if (sort) {
 		const sortList = sort.split(",").join(" ");
 		result = result.sort(sortList);
@@ -48,22 +24,68 @@ res.status(200).json({ Products, nbHits: Products.length});
 		result = result.sort("createdAt");
 	}
 
+	//fields
 	if (fields) {
 		const fieldsList = fields.split(",").join(" ");
 		result = result.select(fieldsList);
 	}
+
+	//typecasting string to number type.
 	const page = Number(req.query.page) || 1;
 	const limit = Number(req.query.limit) || 10;
 	const skip = (page - 1) * limit;
-
 	result = result.skip(skip).limit(limit);
-	// 23
-	// 4 7 7 7 2
 
+	//using await here, results in list of products (documents from collection) from query instance of DB Model.
 	const products = await result;
-	res.status(200).json({ products, nbHits: products.length });
+	res.status(200).json({
+		products,
+		nHits: products.length,
+	});
+};
+
+const createProduct = async (req, res) => {
+	const product = await Product.create(req.body);
+	res.status(201).json({ product });
+};
+
+const getSingleProduct = async (req, res, next) => {
+	const { id: productID } = req.params;
+	const product = await Product.findOne({ _id: productID });
+	if (!product) {
+		return next(createCustomError(`No task with id : ${productID}`, 404));
+	}
+
+	res.status(200).json({ product });
+};
+const deleteProduct = async (req, res, next) => {
+	const { id: productID } = req.params;
+	const product = await Product.findOneAndDelete({ _id: productID });
+	if (!product) {
+		return next(createCustomError(`No task with id : ${productID}`, 404));
+	}
+	res.status(200).json({ product });
+};
+
+const updateProduct = async (req, res, next) => {
+	const { id: productID } = req.params;
+
+	const product = await Product.findOneAndUpdate({ _id: productID }, req.body, {
+		new: true,
+		runValidators: true,
+	});
+
+	if (!product) {
+		return next(createCustomError(`No task with id : ${productID}`, 404));
+	}
+
+	res.status(200).json({ product });
 };
 
 module.exports = {
+	getSingleProduct,
 	getAllProducts,
+	createProduct,
+	deleteProduct,
+	updateProduct,
 };

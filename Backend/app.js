@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 	res.send("ThriftKart Backend");
 });
 
-// app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/auth", authRouter);
 
 // products route
