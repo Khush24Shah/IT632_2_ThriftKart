@@ -2,7 +2,7 @@ require("dotenv").config();
 require("express-async-errors");
 
 const express = require("express");
-const session = require('express-session');
+const session = require("express-session");
 const app = express();
 
 const connectDB = require("./db/connect");
@@ -21,11 +21,12 @@ app.use(
 	})
 );
 //session
-app.use(session({
-	secret: "secretkey",
-	resave: false,
-	saveUninitialized:true,
-	cookie: {}
+app.use(
+	session({
+		secret: "secretkey",
+		resave: false,
+		saveUninitialized: true,
+		cookie: {},
 	})
 );
 // routes
@@ -53,5 +54,5 @@ const start = async () => {
 		console.log(error);
 	}
 };
-
+console.log(process.env.EMAIL, process.env.PASSWORD);
 start();
