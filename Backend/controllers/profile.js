@@ -61,7 +61,24 @@ const getAllProfile = async (req,res) =>{
    
 };
 const deleteProfile = async (req,res) =>{
-   
+    if(req.user)
+    {
+   try{
+    const result = await Customer.findOneAndDelete({_id:req.user._id});
+    if(result)
+    {
+        res.send(result);
+    }
+    else{
+        res.status(400).send("Profile Not found");
+    }}
+    catch(e)
+    {
+        res.status(500).send(e);
+    }}
+    else{
+        res.status(400).send("Profile Not found using token");   
+    }
 };
 
 module.exports ={
