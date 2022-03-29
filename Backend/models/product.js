@@ -41,7 +41,7 @@ const productSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now(),
 	},
-	adminID: admin,
+	image: String,
 });
 
 module.exports = mongoose.model("Product", productSchema);

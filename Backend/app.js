@@ -3,6 +3,7 @@ require("express-async-errors");
 
 const express = require("express");
 const session = require("express-session");
+const fileUpload = require("express-fileupload");
 const app = express();
 
 const connectDB = require("./db/connect");
@@ -30,12 +31,13 @@ app.use(
 		cookie: {},
 	})
 );
+app.use(express.static("./public"));
+app.use(fileUpload({ useTempFiles: true }));
 // routes
-
 app.get("/", (req, res) => {
 	res.send("ThriftKart Backend");
 });
-app.use("/api/v1/profileupdate",profileRouter);
+app.use("/api/v1/profileupdate", profileRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/auth", authRouter);
 
@@ -55,5 +57,4 @@ const start = async () => {
 		console.log(error);
 	}
 };
-console.log(process.env.EMAIL, process.env.PASSWORD);
 start();
