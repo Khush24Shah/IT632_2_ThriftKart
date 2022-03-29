@@ -5,10 +5,10 @@ const authVerify = (req, res, next) => {
 	if (req.headers && req.headers.authorization && req.headers.authorization.split(" ")[0] === "JWT") {
 		jwt.verify(req.headers.authorization.split(" ")[1], process.env.API_SECRET, function (err, decode) {
 			if (err) req.user = undefined;
-			console.log(decode.id);
+			console.log(decode._id);
 			User.findOne({
-				id: decode.id,
-			}).exec((err,result) => {
+				_id: decode._id,
+			}).exec((err,user) => {
 
 				
 				if (err) {
@@ -17,9 +17,9 @@ const authVerify = (req, res, next) => {
 						message: err,
 					});
 				} else {
-					console.log(result);
-					req.result = result;
-					console.log(req.result.email);
+					console.log(user);
+					req.user = user;
+					
 					next();
 				}
 			});
