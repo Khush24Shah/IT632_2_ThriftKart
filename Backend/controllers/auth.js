@@ -69,8 +69,9 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
+	console.log(req.query.email);
 	User.findOne({
-		email: req.body.email,
+		email: req.query.email,
 	}).exec((err, user) => {
 		if (err) {
 			res.status(500).send({
@@ -85,7 +86,7 @@ exports.signin = (req, res) => {
 		}
 
 		//comparing passwords
-		var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+		var passwordIsValid = bcrypt.compareSync(req.query.password, user.password);
 		// checking if password was valid and send response accordingly
 		if (!passwordIsValid) {
 			return res.status(401).send({
@@ -94,8 +95,10 @@ exports.signin = (req, res) => {
 			});
 		}
 		//signing token with user id
+		console.log(user);
 		var token = jwt.sign(
 			{
+				
 				id: user.id,
 			},
 			process.env.API_SECRET,

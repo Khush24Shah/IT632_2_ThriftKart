@@ -8,6 +8,7 @@ const app = express();
 const connectDB = require("./db/connect");
 const productsRouter = require("./routes/products");
 const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
 
 const notFoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
@@ -34,7 +35,7 @@ app.use(
 app.get("/", (req, res) => {
 	res.send("ThriftKart Backend");
 });
-
+app.use("/api/v1/profileupdate",profileRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/auth", authRouter);
 
