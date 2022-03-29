@@ -1,9 +1,29 @@
 const mongoose = require("mongoose");
-
+const admin = require("./admin");
 const productSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: [true, "product name must be provided"],
+	},
+	categories: {
+		type: Array,
+		default: [],
+	},
+	stock: {
+		type: Number,
+		default: 1,
+	},
+	gender: {
+		type: String,
+		default: "U",
+		uppercase: true,
+		maxLength: 1,
+		validate: {
+			validator: function (v) {
+				return v == "U" || v == "M" || v == "F";
+			},
+			message: "Please enter a valid gender type (F,M,U)",
+		},
 	},
 	price: {
 		type: Number,
@@ -21,14 +41,7 @@ const productSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now(),
 	},
-	company: {
-		type: String,
-		enum: {
-			values: ["ikea", "liddy", "caressa", "marcos"],
-			message: "{VALUE} is not supported",
-		},
-		// enum: ['ikea', 'liddy', 'caressa', 'marcos'],
-	},
+	adminID: admin,
 });
 
 module.exports = mongoose.model("Product", productSchema);

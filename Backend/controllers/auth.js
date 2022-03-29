@@ -98,7 +98,6 @@ exports.signin = (req, res) => {
 		console.log(user);
 		var token = jwt.sign(
 			{
-				
 				_id: user._id,
 			},
 			process.env.API_SECRET,

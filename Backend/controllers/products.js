@@ -1,16 +1,19 @@
 const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
-	const { featured, company, name, sort, fields } = req.query;
+	const { name, category, gender, featured, sort, fields } = req.query;
 	const queryObj = {};
 	if (featured) {
 		queryObj.featured = featured === "true" ? true : false;
 	}
-	if (company) {
-		queryObj.company = company;
+	if (category) {
+		queryObj.category = category;
 	}
 	if (name) {
 		queryObj.name = { $regex: name, $options: "i" };
+	}
+	if (gender) {
+		queryObj.gender = gender;
 	}
 
 	//not using await, to get access to query instance, so that we can use chaining operations.
