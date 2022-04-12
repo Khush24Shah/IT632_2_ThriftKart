@@ -9,7 +9,7 @@ const connectDB = require("./db/connect");
 const productsRouter = require("./routes/products");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
-
+const cartRouter = require("./routes/cart");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 
@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/profileupdate",profileRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/cart", cartRouter);
 
 // products route
 
