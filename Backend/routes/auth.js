@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/authVerify"),
-	{ signup, signin,emailsend } = require("../controllers/auth.js");
+	{ signup, signin, emailsend } = require("../controllers/auth.js");
 router.route("/emailsend").get(emailsend);
 router.route("/register").get(signup);
 router.route("/login").get(signin);

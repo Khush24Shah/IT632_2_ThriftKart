@@ -28,9 +28,9 @@ const App = () => {
   // return <Navbar/>;
   // return <Newsletter/>;
   // return <Slider/>;
-  //return <MiniSlider/>;
-  //return <Footer/>;
-  //return <HouseProducts/>;
+  // return <MiniSlider/>;
+  // return <Footer/>;
+  // return <HouseProducts/>;
   // return <MensCloths/>;
   // return <WomenCloths/>;
 };
