@@ -7,3 +7,5 @@ router.route("/").get(getAllProducts).post(createProduct);
 router.route("/:id").get(getSingleProduct).patch(updateProduct).delete(deleteProduct);
 router.route("/upload").post(uploadProductImageLocal);
 module.exports = router;
+
+
