@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { mobile } from "../responsive";;
-
+import { mobile } from "../responsive";
+import {generateOTP} from "../helper/generateOTP"
+import {signup} from "../data/user"
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -56,27 +58,65 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+  const [userData,setUserData] = useState({
+        fname:"",
+        lname:"",
+        email:"",
+        mobile:"",
+        address:"",
+        dob:"",
+        password:"",
+        otp:"",
+        hashedOTP:"",
+
+  });
+
+  const {fname,lname,email,mobile,dob,address,password,otp} = userData;
+  const handleChange = (name) => (event) => {
+		setUserData({ ...userData, error: false, [name]: event.target.value });
+	};
+
+  const generate = async(event) =>{
+    event.preventDefault();
+      await generateOTP({email},(data)=>{
+        setUserData({
+          ...userData,
+          hashedOTP:data?.hashedOTP,
+        })
+      })
+  }
+
+  const userSignUp = async(event) =>{
+    event.preventDefault();
+    await signup(userData);
+  }
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT AND JOIN US!!</Title>
         <Form>
-        <Input placeholder="Username" />
-          <Input placeholder="first name" />
-          <Input placeholder="last name" />
-          <Input placeholder="email" />
-          <Input placeholder="mobile" />
-          <Input placeholder="address" />
-          <Input placeholder="dob" />
-          <Input type={"password"} placeholder="password" />
-          <Input type={"password"} placeholder="confirm password" />
-          <Input type={"number"} placeholder="OTP" />
+          <Input placeholder="first name" type="text" value={fname}
+											onChange={handleChange("fname")}/>
+          <Input placeholder="last name" type="text" value={lname}
+											onChange={handleChange("lname")} />
+          <Input placeholder="email" type="email" value={email.toLowerCase()}
+											onChange={handleChange("email")} />
+          <Input placeholder="mobile" type="text" value={mobile}
+											onChange={handleChange("mobile")} />
+          <Input placeholder="address" type="text" value={address}
+											onChange={handleChange("address")} />
+          <Input placeholder="dob" type="date" />
+          <Input type="password" placeholder="password" value={password}
+											onChange={handleChange("password")} />
+          {/* <Input type="password" placeholder="confirm password" value={password2}
+											onChange={handleChange("password2")} /> */}
+          <Input type="text" placeholder="OTP" value={otp} onChange={handleChange("otp")} />
+          <Button onClick={generate}  >Generate OTP</Button>
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>VERIFY</Button>
-          <Button>CREATE</Button>
+          <Button onClick={userSignUp} >CREATE</Button>
         </Form>
       </Wrapper>
     </Container>

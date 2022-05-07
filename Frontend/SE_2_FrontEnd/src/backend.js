@@ -1,15 +1,15 @@
 const BACKEND = "http://localhost:3000/";
 
 //AUTHENTICATION APIs
-export const Login_API = `${BACKEND}auth/login/`;
-export const Logout_API = `${BACKEND}auth/logout/`;
-export const Register_API = `${BACKEND}auth/registration/`;
-
+export const Login_API = `${BACKEND}api/v1/auth/login/`;
+// export const Logout_API = `${BACKEND}auth/logout`;
+export const Register_API = `${BACKEND}api/v1/auth/register/`;
+export const OTP_API = `${BACKEND}api/v1/auth/emailsend/`;
 //USER DETAILS APIs
-export const ProfileData_API = `${BACKEND}api/get_profile/`;
+export const ProfileData_API = `${BACKEND}api/v1/profileupdate/`;
 
 //ECOM APIs
-export const Products_API = `${BACKEND}api/get_products/`;
+export const Products_API = `${BACKEND}api/v1/products/`;
 export const MyOrders_API = `${BACKEND}api/get_user_orders/`;
 
 //Payment APIs

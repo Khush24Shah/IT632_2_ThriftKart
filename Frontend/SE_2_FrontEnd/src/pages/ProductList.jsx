@@ -36,7 +36,7 @@ const Select = styled.select`
 `;
 const Option = styled.option``;
 
-const ProductList = () => {
+const ProductList = ({products}) => {
   return (
     <Container>
       <Navbar />
@@ -76,7 +76,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products products={products} />
       <Newsletter />
       <Footer />
     </Container>

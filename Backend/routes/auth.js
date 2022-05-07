@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../middleware/authVerify"),
 	{ signup, signin, emailsend } = require("../controllers/auth.js");
-router.route("/emailsend").get(emailsend);
-router.route("/register").get(signup);
-router.route("/login").get(signin);
+router.route("/emailsend").post(emailsend);
+router.route("/register").post(signup);
+router.route("/login").post(signin);
 
 router.get("/hiddencontent", verifyToken, function (req, res) {
 	if (!user) {

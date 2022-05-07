@@ -14,15 +14,31 @@ import Footer from "./components/Footer";
 import HouseProducts from "./components/HouseProducts";
 import MensCloths from "./components/MensCloths";
 import WomenCloths from "./components/WomenCloths";
-
+import { products } from "./data/products";
+import { useEffect, useState } from "react";
 
 const App = () => {
+
+
+  const [prods,setProds] = useState([]);
+  useEffect(async() => {
+    var mounted = true;
+    await products((data)=>{
+      console.log(data);
+      data?.products? setProds(data?.products) : setProds([]);
+    })
+  
+    return () => {
+      mounted=false;
+    }
+  }, [])
+  
   // return <Home/>;
   // return <Product/>;
-  // return <ProductList/>;
-  // return <Register/>;
+  // return <ProductList  products={prods} />;
+  return <Register/>;
   // return <Login/>;
-  return <Cart/>;
+  // return <Cart/>;
   // return <Categories/>;
   // return <CategoryItem/>; //error
   // return <Navbar/>;

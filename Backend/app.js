@@ -1,8 +1,10 @@
 require("dotenv").config();
 require("express-async-errors");
 
+const cors = require("cors");
 const express = require("express");
 const session = require("express-session");
+var cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const app = express();
 
@@ -16,6 +18,7 @@ const notFoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 
 // middleware
+app.use(cors());
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(
@@ -32,6 +35,7 @@ app.use(
 		cookie: {},
 	})
 );
+app.use(cookieParser());
 app.use(express.static("./public"));
 app.use(fileUpload({ useTempFiles: true }));
 // routes

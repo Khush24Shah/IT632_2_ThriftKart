@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
-	id: {
-		type: Number,
-		unique: true,
-		required: [true, "id must be provided"],
-	},
 	fname: {
 		type: String,
 		required: [true, "first name cant be null"],
