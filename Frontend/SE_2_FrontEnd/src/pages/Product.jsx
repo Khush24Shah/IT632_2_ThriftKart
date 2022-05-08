@@ -6,6 +6,10 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 
+
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -115,7 +119,17 @@ const Button = styled.button`
   }
 `;
 
+
 const Product = () => {
+
+
+  let navigate = useNavigate();
+
+  const addcart = async(event) =>{
+    event.preventDefault();
+    return navigate("/Cart");
+  }
+
   return (
     <Container>
       <Navbar />
@@ -157,7 +171,7 @@ const Product = () => {
               <Amount>1</Amount>
               <Add />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={addcart}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

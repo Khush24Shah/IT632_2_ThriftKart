@@ -9,8 +9,13 @@ import Products from "../components/Products";
 import Slider from "../components/Slider";
 import MiniSlider from "../components/MiniSlider";
 
+import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
+
+  let navigate = useNavigate();
+
   return (
     <div>
       <Navbar />

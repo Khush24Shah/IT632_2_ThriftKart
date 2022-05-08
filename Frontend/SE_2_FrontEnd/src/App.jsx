@@ -33,12 +33,12 @@ const App = () => {
     }
   }, [])
   
-  // return <Home/>;
+  return <Home/>;
   // return <Product/>;
   // return <ProductList  products={prods} />;
-  // return <Register/>;
-  return <Login/>;
-  // return <Cart/>;
+ // return <Register/>;
+  //return <Login/>;
+  //return <Cart/>;
   // return <Categories/>;
   // return <CategoryItem/>; //error
   // return <Navbar/>;

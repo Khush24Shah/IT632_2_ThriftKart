@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div`
   height: 30px;
   background-color: chocolate;
@@ -12,6 +16,10 @@ const Container = styled.div`
 `;
 
 const Announcement1 = () => {
+
+
+  let navigate = useNavigate();
+
   return <Container>OUR FAMOUS CATEGORIES!! </Container>;
 };
 

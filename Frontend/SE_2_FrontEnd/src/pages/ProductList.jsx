@@ -6,6 +6,11 @@ import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import { mobile } from "../responsive";
 
+
+
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div``;
 
 const Title = styled.h1`
@@ -37,6 +42,10 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = ({products}) => {
+
+
+  let navigate = useNavigate();
+
   return (
     <Container>
       <Navbar />

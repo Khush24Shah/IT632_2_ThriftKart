@@ -3,6 +3,16 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import {generateOTP} from "../helper/generateOTP"
 import {signup} from "../data/user"
+
+
+
+
+import { useNavigate } from "react-router-dom";
+
+
+
+
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -58,6 +68,14 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+
+
+
+  let navigate = useNavigate();
+
+
+
+  
   const [userData,setUserData] = useState({
         fname:"",
         lname:"",
@@ -89,6 +107,7 @@ const Register = () => {
   const userSignUp = async(event) =>{
     event.preventDefault();
     await signup(userData);
+    return navigate("/Login");
   }
   return (
     <Container>

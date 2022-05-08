@@ -4,6 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -67,6 +70,10 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
+
+
+  let navigate = useNavigate();
+
   return (
     <Container>
       <Wrapper>
@@ -74,8 +81,8 @@ const Navbar = () => {
           <Logo>ThriftKart</Logo>
         </Left>
         <Left>
-          <ArrowDropDown></ArrowDropDown>
-          <MenuItem>Categories</MenuItem>
+          {/* <ArrowDropDown></ArrowDropDown> */}
+          <MenuItem onClick={() =>navigate('/Categories')}>Categories</MenuItem>
         </Left>
         <Right>
           <Language>EN</Language>
@@ -85,11 +92,11 @@ const Navbar = () => {
           </SearchContainer>
         </Right>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          <MenuItem onClick={() =>navigate("/Register")}>REGISTER</MenuItem>
+          <MenuItem onClick={() =>navigate('/Login')}>SIGN IN</MenuItem>
           <MenuItem>
             <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined />
+              <ShoppingCartOutlined onClick={() =>navigate('/Cart')}/>
             </Badge>
           </MenuItem>
         </Right>

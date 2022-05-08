@@ -9,6 +9,7 @@ import {
 } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -85,6 +86,7 @@ const Payment = styled.img`
 `;
 
 const Footer = () => {
+  let navigate = useNavigate();
   return (
     <Container>
       <Left>
@@ -110,16 +112,11 @@ const Footer = () => {
       <Center>
         <Title>Useful Links</Title>
         <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
+          <ListItem onClick={() =>navigate('/Home')}>Home</ListItem>
+          <ListItem onClick={() =>navigate('/Cart')}>Cart</ListItem>
+          {/* <ListItem onClick={() =>navigate('/MensClothes')}>Man Fashion</ListItem>
+          <ListItem onClick={() =>navigate('/WomensClothes')}>Woman Fashion</ListItem>
+     */}
         </List>
       </Center>
       <Right>
