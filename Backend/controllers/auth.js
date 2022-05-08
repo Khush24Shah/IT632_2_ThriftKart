@@ -37,7 +37,7 @@ exports.emailsend = (req, res) => {
 };
 
 exports.signup = (req, res) => {
-	console.log("_________", req.body, req.session, req.cookie);
+	console.log("_________", req.body);
 	const user = new User({
 		fname: req.body.fname,
 		lname: req.body.lname,
@@ -47,39 +47,39 @@ exports.signup = (req, res) => {
 		address: req.body.address,
 		password: bcrypt.hashSync(req.body.password, 8),
 	});
-	console.log(req.body.otp);
+	// console.log(req.body.otp);
 	// console.log(req.cookie.otp);
 
-	if (bcrypt.compareSync(req.body.otp, req.body.hashedOTP)) {
-		user.save((err, user) => {
-			if (err) {
-				res.status(500).send({
-					message: err,
-				});
-				return;
-			} else {
-				res.status(200).send({
-					message: "User Registered successfully",
-				});
-			}
-		});
-	} else {
-		res.status(500).send({
-			message: "Wrong otp",
-		});
-	}
-};
-
-exports.signin = (req, res) => {
-	console.log(req.body.email);
-	User.findOne({
-		email: req.body.email,
-	}).exec((err, user) => {
+	// if (bcrypt.compareSync(req.body.otp, req.body.hashedOTP)) {
+	user.save((err, user) => {
+		// console.log(err);
 		if (err) {
 			res.status(500).send({
 				message: err,
 			});
 			return;
+		} else {
+			res.status(200).send({
+				message: "User Registered successfully",
+			});
+		}
+	});
+	// } else {
+	// 	res.status(500).send({
+	// 		message: "Wrong otp",
+	// 	});
+	// }
+};
+
+exports.signin = (req, res) => {
+	// console.log(req.body.email);
+	User.findOne({
+		email: req.body.email,
+	}).exec((err, user) => {
+		if (err) {
+			return res.status(500).send({
+				message: err,
+			});
 		}
 		if (!user) {
 			return res.status(404).send({
@@ -110,11 +110,7 @@ exports.signin = (req, res) => {
 
 		//responding to client request with user profile success message and  access token .
 		res.status(200).send({
-			user: {
-				_id: user._id,
-				email: user.email,
-				fullName: user.fullName,
-			},
+			user,
 			message: "Login successfull",
 			accessToken: token,
 		});

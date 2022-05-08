@@ -81,7 +81,7 @@ const Register = () => {
       await generateOTP({email},(data)=>{
         setUserData({
           ...userData,
-          hashedOTP:data?.hashedOTP,
+          // hashedOTP:data?.hashedOTP,
         })
       })
   }
@@ -105,7 +105,7 @@ const Register = () => {
 											onChange={handleChange("mobile")} />
           <Input placeholder="address" type="text" value={address}
 											onChange={handleChange("address")} />
-          <Input placeholder="dob" type="date" />
+          <Input placeholder="dob" type="date"  value={dob} onChange={handleChange("dob")} />
           <Input type="password" placeholder="password" value={password}
 											onChange={handleChange("password")} />
           {/* <Input type="password" placeholder="confirm password" value={password2}

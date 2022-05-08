@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {mobile} from "../responsive";
+import { useState } from "react";
+import { signin } from "../data/user";
 
 const Container = styled.div`
   width: 100vw;
@@ -58,15 +60,31 @@ const Link = styled.a`
 `;
 
 const Login = () => {
+
+  const [userData,setUserData] = useState({
+        email:"",
+        password:"",
+  });
+
+  const {email,password} = userData;
+  const handleChange = (name) => (event) => {
+		setUserData({ ...userData, error: false, [name]: event.target.value });
+	};
+
+  const userSignIn = async(event) =>{
+    event.preventDefault();
+    await signin(userData);
+  }
+
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-          <Input placeholder="username" />
-          <Input type={"password"} placeholder="password" />
-          <Button>LOGIN</Button>
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
+          <Input placeholder="email" type="email" value={email} onChange={handleChange("email")} />
+          <Input type={"password"} placeholder="password" value={password} onChange={handleChange("password")} />
+          <Button onClick={userSignIn} >LOGIN</Button>
+          {/* <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link> */}
           <Link>CREATE A NEW ACCOUNT</Link>
         </Form>
       </Wrapper>

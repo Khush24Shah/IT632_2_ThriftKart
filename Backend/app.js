@@ -17,8 +17,7 @@ const purchaseRouter = require("./routes/purchase");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 const orderRouter = require("./routes/order");
-const orderRouter = require("./routes/wishlist");
-
+// const wishlistRouter = require("./routes/wishlist");
 
 // middleware
 app.use(cors());
@@ -50,7 +49,7 @@ app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/order", orderRouter);
-app.use("/api/v1/wishlist", wishlistRouter);
+// app.use("/api/v1/wishlist", wishlistRouter);
 //app.use("/api/v1/purchase", purchaseRouter);
 
 // products route
