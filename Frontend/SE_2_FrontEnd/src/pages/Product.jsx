@@ -7,7 +7,10 @@ import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect,useState } from "react";
+import { Products_API } from "../backend";
+import { singleProduct } from "../data/products";
 
 
 const Container = styled.div``;
@@ -122,23 +125,41 @@ const Button = styled.button`
 
 const Product = () => {
 
-
+  const {id} = useParams();
   let navigate = useNavigate();
 
   const addcart = async(event) =>{
     event.preventDefault();
     return navigate("/Cart");
   }
-
+  const [product,setProduct] = useState({});
+  const [loading,setLoading] = useState(true);
+  const [plusMinus, setPlusMinus] = useState(1);
+  useEffect(async()=>{
+    await singleProduct(id,(data)=>{
+      console.log(data);
+      if(data?.product){
+        setProduct(data?.product);
+        setLoading(false);
+      }
+    })
+  },[])
+  // console.log(product,product.name);
+  const handlePlus = () => {
+		setPlusMinus(plusMinus + 1);
+	};
+	const handleMinus = () => {
+		if (plusMinus > 1) setPlusMinus(plusMinus - 1);
+	};
   return (
-    <Container>
+    loading? <h1>Loading...</h1>:<Container>
       <Navbar />
       <Wrapper>
         <ImgContainer>
           <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
+          <Title>{product.name}</Title>
           <Desc>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
             venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
@@ -146,30 +167,14 @@ const Product = () => {
             tristique tortor pretium ut. Curabitur elit justo, consequat id
             condimentum ac, volutpat ornare.
           </Desc>
-          <Price>$ 20</Price>
+          <Price>₹ {product?.price}</Price>
           <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove  onClick={handleMinus}/>
+              <Amount>{plusMinus}</Amount>
+              <Add   onClick={handlePlus} />
             </AmountContainer>
             <Button onClick={addcart}>ADD TO CART</Button>
           </AddContainer>

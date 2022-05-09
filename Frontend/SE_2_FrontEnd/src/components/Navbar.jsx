@@ -4,7 +4,7 @@ import {React,useEffect,useState} from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import {signout} from "../data/user"
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { isAuthenticated } from "../data/user";
 
 
@@ -91,11 +91,12 @@ const Navbar = () => {
     <Container>
       <Wrapper>
       <Left>
-          <Logo>ThriftKart</Logo>
+           <Logo onClick={() =>navigate('/')} >ThriftKart</Logo>
         </Left>
         <Left>
           {/* <ArrowDropDown></ArrowDropDown> */}
-          <MenuItem onClick={() =>navigate('/Categories')}>Categories</MenuItem>
+          {/* <MenuItem onClick={() =>navigate('/Categories')}>Categories</MenuItem> */}
+          <MenuItem onClick={() =>navigate('/ProductList')}>All Products</MenuItem>
         </Left>
         <Right>
           <Language>EN</Language>

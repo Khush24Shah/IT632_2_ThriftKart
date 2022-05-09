@@ -17,3 +17,21 @@ export const products = async (next) => {
 		})
 		.catch((err) => console.log(err));
 };
+
+export const singleProduct = async (id, next) => {
+	// await fetch(`${Products_API}?limit=${limit}&offset=${offset}`)
+	await fetch(`${Products_API}${id}`, {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+	})
+		.then((resp) => {
+			return resp.json();
+		})
+		.then((data) => {
+			next(data);
+		})
+		.catch((err) => console.log(err));
+};

@@ -16,14 +16,13 @@ import MensCloths from "./components/MensCloths";
 import WomenCloths from "./components/WomenCloths";
 import { products } from "./data/products";
 import { useEffect, useState } from "react";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 const App = () => {
-
-
-  const [prods,setProds] = useState([]);
+const [prods,setProds] = useState([]);
   useEffect(async() => {
     var mounted = true;
-    await products((data)=>{
+   
+    mounted && await products((data)=>{
       console.log(data);
       data?.products? setProds(data?.products) : setProds([]);
     })
@@ -33,22 +32,29 @@ const App = () => {
     }
   }, [])
   
-  return <Home/>;
-  // return <Product/>;
-  // return <ProductList  products={prods} />;
- // return <Register/>;
-  //return <Login/>;
-  //return <Cart/>;
-  // return <Categories/>;
-  // return <CategoryItem/>; //error
-  // return <Navbar/>;
-  // return <Newsletter/>;
-  // return <Slider/>;
-  // return <MiniSlider/>;
-  // return <Footer/>;
-  // return <HouseProducts/>;
-  // return <MensCloths/>;
-  // return <WomenCloths/>;
+   return  <BrowserRouter>
+    <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Product/:id" element={<Product />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/ProductList" element={<ProductList products={prods} />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Categories" element={<Categories />} />
+          <Route path="/CategoryItem" element={<CategoryItem />} />
+          <Route path="/Navbar" element={<Navbar />} />
+          <Route path="/Newsletter" element={<Newsletter />} />
+          <Route path="/Slider" element={<Slider />} />
+          <Route path="/MiniSlider" element={<MiniSlider />} />
+          <Route path="/Footer" element={<Footer />} />
+          <Route path="/HouseProducts" element={<HouseProducts />} />
+          <Route path="/MensCloths" element={<MensCloths />} />
+          <Route path="/WomensCloths" element={<WomenCloths />} />
+      
+    </Routes>
+  </BrowserRouter>
+  
 };
 
 export default App;

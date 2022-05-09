@@ -19,8 +19,8 @@ const  Products = ({products}) => {
   console.log(products);
   return (
     <Container>
-      {popularProducts.map((item) => (
-        <Product item={item} key={item.id} />
+      {products && products.length>0 && products.map((item,id) => (
+        <Product item={item} key={id} />
       ))}
     </Container>
   );

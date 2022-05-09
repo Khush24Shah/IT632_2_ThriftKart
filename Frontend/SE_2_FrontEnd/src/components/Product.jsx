@@ -74,19 +74,21 @@ const Product = ({ item }) => {
 
   let navigate = useNavigate();
 
+  const addToWishlist = () => {}
+  const addToCart = () => {}
   return (
     <Container>
       <Circle />
       <Image src={item.img} />
       <Info>
         <Icon>
-          <ShoppingCartOutlined />
+          <ShoppingCartOutlined onClick={(e)=>addToCart(e)} />
         </Icon>
         <Icon>
-          <SearchOutlined />
+          <SearchOutlined onClick={()=>{navigate(`/Product/${item._id}`)}} />
         </Icon>
         <Icon>
-          <FavoriteBorderOutlined />
+          <FavoriteBorderOutlined onClick={(e)=>addToWishlist(e)} />
         </Icon>
       </Info>
     </Container>
