@@ -6,7 +6,14 @@ import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 
+
+import { useNavigate } from "react-router-dom";
+
+
 const SingleCard = ({ multi }) => {
+
+  let navigate = useNavigate();
+
   return (
     <>
       <div className="singleCard">

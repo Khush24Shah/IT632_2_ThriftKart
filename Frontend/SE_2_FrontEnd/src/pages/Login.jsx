@@ -3,6 +3,9 @@ import {mobile} from "../responsive";
 import { useState } from "react";
 import { signin } from "../data/user";
 
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -61,6 +64,9 @@ const Link = styled.a`
 
 const Login = () => {
 
+  let navigate = useNavigate();
+
+
   const [userData,setUserData] = useState({
         email:"",
         password:"",
@@ -74,6 +80,7 @@ const Login = () => {
   const userSignIn = async(event) =>{
     event.preventDefault();
     await signin(userData);
+    
   }
 
   return (

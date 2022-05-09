@@ -7,7 +7,13 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import Navbar from "./Navbar";
 
+
+import { useNavigate } from "react-router-dom";
+
 const HouseProducts = () => {
+
+  let navigate = useNavigate();
+
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),

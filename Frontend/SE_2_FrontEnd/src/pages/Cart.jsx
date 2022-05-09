@@ -5,6 +5,9 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -154,6 +157,9 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+
+  let navigate = useNavigate();
+
   return (
     <Container>
       <Navbar />

@@ -63,7 +63,7 @@ router.put("/:id", verifyToken, async (req, res) => {
   try {
 
     const newOrder = new Order(req.body);
-  const userId = req.user._id; 
+  const useId = req.user._id; 
    let order = await Order.findOne({userId:req.user._id});
         console.log(req.body.products.productId);
         let product = await Product.findOne({_id: req.body.products.productId});

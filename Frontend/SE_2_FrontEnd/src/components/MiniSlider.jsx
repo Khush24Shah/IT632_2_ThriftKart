@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { sliderItems } from "../Minidata";
 import { mobile } from "../responsive";
 
+import { useNavigate } from "react-router-dom";
+
+
 const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -80,6 +83,9 @@ const Button = styled.button`
 `;
 
 const MiniSlider = () => {
+
+  let navigate = useNavigate();
+
   const [slideIndex, setSlideIndex] = useState(0);
   const handleClick = (direction) => {
     if (direction === "left") {
@@ -103,7 +109,7 @@ const MiniSlider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Button>SHOW NOW</Button>
+              <Button onClick={() =>navigate('/Product')}>SHOW NOW</Button>
             </InfoContainer>
           </Slide>
         ))}
