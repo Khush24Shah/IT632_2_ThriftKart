@@ -2,7 +2,7 @@ const BACKEND = "http://localhost:3000/";
 
 //AUTHENTICATION APIs
 export const Login_API = `${BACKEND}api/v1/auth/login/`;
-export const Logout_API = `${BACKEND}auth/logout`;
+export const Logout_API = `${BACKEND}api/v1/auth/signout`;
 export const Register_API = `${BACKEND}api/v1/auth/register/`;
 export const OTP_API = `${BACKEND}api/v1/auth/emailsend/`;
 //USER DETAILS APIs

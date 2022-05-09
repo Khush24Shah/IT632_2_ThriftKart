@@ -35,7 +35,7 @@ export const signup = async (user) => {
 		});
 };
 
-export const signin = async (user) => {
+export const signin = async (user, next) => {
 	return await fetch(`${Login_API}`, {
 		method: "POST",
 		headers: {
@@ -50,7 +50,7 @@ export const signin = async (user) => {
 		.then((data) => {
 			localStorage.setItem("token", data?.accessToken);
 			localStorage.setItem("user", JSON.stringify(data?.user));
-			console.log(data);
+			next(data);
 		})
 		.catch((err) => {
 			console.log(err);
@@ -66,14 +66,15 @@ export const authenticate = (data, next) => {
 
 export const signout = async (next) => {
 	if (typeof window !== "undefined") {
-		localStorage.removeItem("token");
-		localStorage.removeItem("user");
-		next();
 		return await fetch(`${Logout_API}`, {
 			method: "GET",
 		})
 			.then((response) => {
 				console.log("signout", response);
+				if (response.ok) {
+					localStorage.removeItem("token");
+					localStorage.removeItem("user");
+				}
 			})
 			.catch((err) => console.log(err));
 	}
@@ -83,8 +84,8 @@ export const isAuthenticated = () => {
 	if (typeof window === "undefined") {
 		return false;
 	}
-	if (localStorage.getItem("jwt")) {
-		return JSON.parse(localStorage.getItem("jwt"));
+	if (localStorage.getItem("token")) {
+		return true;
 	} else {
 		return false;
 	}

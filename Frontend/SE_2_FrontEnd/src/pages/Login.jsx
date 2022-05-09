@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {mobile} from "../responsive";
 import { useState } from "react";
 import { signin } from "../data/user";
-
+import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
 
@@ -66,7 +66,6 @@ const Login = () => {
 
   let navigate = useNavigate();
 
-
   const [userData,setUserData] = useState({
         email:"",
         password:"",
@@ -79,11 +78,17 @@ const Login = () => {
 
   const userSignIn = async(event) =>{
     event.preventDefault();
-    await signin(userData);
+    await signin(userData,(data)=>{
+      if(data?.user){
+          navigate("/");
+      }
+    })
     
   }
 
   return (
+    <>
+    <Navbar/>
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
@@ -92,10 +97,11 @@ const Login = () => {
           <Input type={"password"} placeholder="password" value={password} onChange={handleChange("password")} />
           <Button onClick={userSignIn} >LOGIN</Button>
           {/* <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link> */}
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Link to="/Register" >CREATE A NEW ACCOUNT</Link>
         </Form>
       </Wrapper>
     </Container>
+    </>
   );
 };
 

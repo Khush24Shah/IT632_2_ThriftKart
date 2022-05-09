@@ -5,7 +5,7 @@ import {generateOTP} from "../helper/generateOTP"
 import {signup} from "../data/user"
 
 
-
+import Navbar from "../components/Navbar"; 
 
 import { useNavigate } from "react-router-dom";
 
@@ -110,6 +110,8 @@ const Register = () => {
     return navigate("/Login");
   }
   return (
+    <>
+      <Navbar/>
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT AND JOIN US!!</Title>
@@ -139,6 +141,7 @@ const Register = () => {
         </Form>
       </Wrapper>
     </Container>
+    </>
   );
 };
 

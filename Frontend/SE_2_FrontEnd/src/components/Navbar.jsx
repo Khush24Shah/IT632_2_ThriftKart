@@ -1,10 +1,11 @@
 import { Badge } from "@material-ui/core";
 import { ArrowDropDown, Search, ShoppingCartOutlined } from "@material-ui/icons";
-import React from "react";
+import {React,useEffect,useState} from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-
+import {signout} from "../data/user"
 import { useNavigate } from "react-router-dom";
+import { isAuthenticated } from "../data/user";
 
 
 const Container = styled.div`
@@ -73,6 +74,18 @@ const Navbar = () => {
 
 
   let navigate = useNavigate();
+  const [toggle,setToggle] = useState(false);
+  const [isAuth,setIsAuth] = useState(isAuthenticated);
+  
+  const signoutuser = async(event) =>{
+    event.preventDefault();
+    await signout()
+    setToggle(!toggle);
+  }
+
+  useEffect(()=>{
+    setIsAuth(isAuthenticated());
+  },[toggle])
 
   return (
     <Container>
@@ -92,12 +105,19 @@ const Navbar = () => {
           </SearchContainer>
         </Right>
         <Right>
-          <MenuItem onClick={() =>navigate("/Register")}>REGISTER</MenuItem>
-          <MenuItem onClick={() =>navigate('/Login')}>SIGN IN</MenuItem>
+          {!isAuthenticated() ? <>
+              <MenuItem onClick={() =>navigate("/Register")}>REGISTER</MenuItem>
+              <MenuItem onClick={() =>navigate('/Login')}>SIGN IN</MenuItem>
+            </> : <MenuItem onClick={(e) =>signoutuser(e)}>SIGN OUT</MenuItem>
+            }
+          
           <MenuItem>
-            <Badge badgeContent={4} color="primary">
+            {isAuthenticated() && <>
+              <Badge badgeContent={4} color="primary">
               <ShoppingCartOutlined onClick={() =>navigate('/Cart')}/>
             </Badge>
+            </>}
+            
           </MenuItem>
         </Right>
       </Wrapper>
