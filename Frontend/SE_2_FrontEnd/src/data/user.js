@@ -1,4 +1,4 @@
-import { Login_API, ProfileData_API, Register_API } from "../backend";
+import { Login_API, Logout_API, ProfileData_API, Register_API } from "../backend";
 
 export const userProfile = async (next) => {
 	await fetch(`${ProfileData_API}`, {
@@ -47,7 +47,11 @@ export const signin = async (user) => {
 		.then((response) => {
 			return response.json();
 		})
-		.then((data) => console.log(data))
+		.then((data) => {
+			localStorage.setItem("token", data?.accessToken);
+			localStorage.setItem("user", JSON.stringify(data?.user));
+			console.log(data);
+		})
 		.catch((err) => {
 			console.log(err);
 		});
@@ -60,19 +64,20 @@ export const authenticate = (data, next) => {
 	}
 };
 
-// export const signout = async (next) => {
-// 	if (typeof window !== "undefined") {
-// 		localStorage.removeItem("jwt");
-// 		next();
-// 		return await fetch(`${API}/signout`, {
-// 			method: "GET",
-// 		})
-// 			.then((response) => {
-// 				console.log("signout", response);
-// 			})
-// 			.catch((err) => console.log(err));
-// 	}
-// };
+export const signout = async (next) => {
+	if (typeof window !== "undefined") {
+		localStorage.removeItem("token");
+		localStorage.removeItem("user");
+		next();
+		return await fetch(`${Logout_API}`, {
+			method: "GET",
+		})
+			.then((response) => {
+				console.log("signout", response);
+			})
+			.catch((err) => console.log(err));
+	}
+};
 
 export const isAuthenticated = () => {
 	if (typeof window === "undefined") {

@@ -107,7 +107,8 @@ exports.signin = (req, res) => {
 				expiresIn: 86400,
 			}
 		);
-
+		// persist the token as 't' in cookie with expiry date
+		res.cookie("t", token, { expire: new Date() + 9999 });
 		//responding to client request with user profile success message and  access token .
 		res.status(200).send({
 			user,
@@ -115,4 +116,9 @@ exports.signin = (req, res) => {
 			accessToken: token,
 		});
 	});
+};
+
+exports.signout = (req, res) => {
+	res.clearCookie("t");
+	res.json({ message: "Signout success" });
 };
