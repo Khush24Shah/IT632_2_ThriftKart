@@ -1,15 +1,17 @@
-const Wishlist = require("../models/Wishlist");
+
+const Wish = require("../models/wishlist");
 const Product = require("../models/product");
 const verifyToken = require("../middleware/authVerify");
+
 
 const router = require("express").Router();
 
 //CREATE
 
 router.post("/", verifyToken, async (req, res) => {
-  const newWishlist = new Wishlist(req.body);
+  const newWish = new Wish(req.body);
   const userId = req.user._id; 
-   let wishlist = await Wishlist.findOne({userId:req.user._id});
+   let wish = await Wish.findOne({userId:req.user._id});
         console.log(req.body.products.productId);
         let product = await Product.findOne({_id: req.body.products.productId});
         if(!product){
@@ -18,34 +20,31 @@ router.post("/", verifyToken, async (req, res) => {
         const price = product.price;
         const name = product.name;
         const productId = req.body.products.productId;
-        console.log(price);
-        if(wishlist){
-          let itemIndex = wishlist.products.findIndex(p => p.productId == productId);
+        if(wish){
+          let itemIndex = wish.products.findIndex(p => p.productId == productId);
           console.log(productId);
           console.log(itemIndex);
           if(itemIndex > -1)
             {
-                let productItem = wishlist.products[itemIndex];
-                console.log(productItem);
-                wishlist.products[itemIndex] = productItem;
+                let productItem = wish.products[itemIndex];
+                wish.products[itemIndex] = productItem;
             }
             else
             {
-              wishlist.products.push({ productId, name, price });
+              wish.products.push({ productId, name, price });
             }
-            
-            wishlist = await wishlist.save();
-            return res.status(201).send(wishlist);
+            wish = await wish.save();
+            return res.status(201).send(wish);
         }
         else {
           
           try {
             
-            const savedWishlist = await Wishlist.create({
+            const savedWish = await Wish.create({
               userId,
               products: [{ productId, name, price }],
-          });
-            res.status(200).json(savedWishlist);
+              });
+            res.status(200).json(savedWish);
           } catch (err) {
             res.status(500).json(err);
           }
@@ -57,9 +56,9 @@ router.post("/", verifyToken, async (req, res) => {
 router.put("/:id", verifyToken, async (req, res) => {
   try {
 
-    const newWishlist = new Wishlist(req.body);
+    const newWish = new Wish(req.body);
   const userId = req.user._id; 
-   let wishlist = await Wishlist.findOne({userId:req.user._id});
+   let wish = await Wish.findOne({userId:req.user._id});
         console.log(req.body.products.productId);
         let product = await Product.findOne({_id: req.body.products.productId});
         if(!product){
@@ -68,14 +67,15 @@ router.put("/:id", verifyToken, async (req, res) => {
         const price = product.price;
         const name = product.name;
         const productId = req.body.products.productId;
-        if(!wishlist)
+        
+        if(!wish)
         {
-          return res.status(400).send("Wishlist not found");
+          return res.status(400).send("Wish not found");
         }
         else
         {
           console.log("here in else");
-          let itemIndex = wishlist.products.findIndex(p => p.productId == productId);
+          let itemIndex = wish.products.findIndex(p => p.productId == productId);
           
           if(itemIndex == -1)
             {
@@ -85,29 +85,24 @@ router.put("/:id", verifyToken, async (req, res) => {
             {
               console.log("product item");
          
-              let productItem = wishlist.products[itemIndex];
-              wishlist.products[itemIndex] = productItem;
-              console.log(wishlist);
+              let productItem = wish.products[itemIndex];
+              wish.products[itemIndex] = productItem;
+              console.log(wish);
             }
-            if(product.qty == 0)
-            {
-             wishlist.products.splice(itemIndex,1);
-            }   
-            }
-            wishlist = await wishlist.save();
-           // console.log(wishlist);
-            return res.status(201).send(wishlist);
-            
+            wish = await wish.save();
+           // console.log(wish);
+            return res.status(201).send(wish);
+        }  
         
 
-    /* const updatedWishlist = await Wishlist.findByIdAndUpdate(
+    /* const updatedWish = await Wish.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedWishlist); */
+    res.status(200).json(updatedWish); */
   } catch (err) {
     res.status(500).json(err);
   }
@@ -116,8 +111,8 @@ router.put("/:id", verifyToken, async (req, res) => {
 //DELETE
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
-    await Wishlist.findByIdAndDelete(req.params.id);
-    res.status(200).json("Wishlist has been deleted...");
+    await Wish.findByIdAndDelete(req.params.id);
+    res.status(200).json("Wish has been deleted...");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -126,8 +121,8 @@ router.delete("/:id", verifyToken, async (req, res) => {
 //GET USER CART
 router.get("/find/:userId", verifyToken, async (req, res) => {
   try {
-    const wishlist = await Wishlist.findOne({ userId: req.params.userId });
-    res.status(200).json(wishlist);
+    const wish = await Wish.findOne({ userId: req.params.userId });
+    res.status(200).json(wish);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -137,8 +132,8 @@ router.get("/find/:userId", verifyToken, async (req, res) => {
 
 router.get("/", verifyToken, async (req, res) => {
   try {
-    const wishlists = await Wishlist.find();
-    res.status(200).json(wishlists);
+    const wishs = await Wish.find();
+    res.status(200).json(wishs);
   } catch (err) {
     res.status(500).json(err);
   }
