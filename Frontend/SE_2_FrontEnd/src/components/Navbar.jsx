@@ -1,11 +1,12 @@
 import { Badge } from "@material-ui/core";
-import { ArrowDropDown, Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { ArrowDropDown, Search, ShoppingCartOutlined, Style } from "@material-ui/icons";
 import {React,useEffect,useState} from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import {signout} from "../data/user"
 import { useNavigate,Link } from "react-router-dom";
 import { isAuthenticated } from "../data/user";
+import "./Navbar.css";
 
 
 const Container = styled.div`
@@ -53,6 +54,7 @@ const Center = styled.div`
 
 const Logo = styled.h1`
   font-weight: bold;
+  cursor: pointer;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
@@ -69,6 +71,11 @@ const MenuItem = styled.div`
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
+const Image = styled.img`
+  width: 40%;
+`;
+
+
 
 const Navbar = () => {
 
@@ -91,13 +98,23 @@ const Navbar = () => {
     <Container>
       <Wrapper>
       <Left>
-           <Logo onClick={() =>navigate('/')} >ThriftKart</Logo>
+           <Logo onClick={() =>navigate('/')} ><Image src="https://cdn.discordapp.com/attachments/915662732274044947/973631162612318238/logologo.jpeg" /></Logo>
         </Left>
         <Left>
           {/* <ArrowDropDown></ArrowDropDown> */}
           {/* <MenuItem onClick={() =>navigate('/Categories')}>Categories</MenuItem> */}
-          <MenuItem onClick={() =>navigate('/ProductList')}>All Products</MenuItem>
+          
+<div class="dropdown">
+  <button class="dropbtn">Categories</button>
+  <div class="dropdown-content">
+    <a href="#">Electronics</a>
+    <a href="#">Furniture</a>
+    <a href="#">Clothing</a>
+  </div>
+</div>
+<MenuItem onClick={() =>navigate('/ProductList')}>All Products</MenuItem>
         </Left>
+        
         <Right>
           <Language>EN</Language>
           <SearchContainer>
