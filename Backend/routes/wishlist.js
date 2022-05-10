@@ -67,7 +67,7 @@ router.put("/:id", verifyToken, async (req, res) => {
         }
         const price = product.price;
         const name = product.name;
-        const productId = req.body.products.productId;
+        const productID = req.body.products.productId;
         if(!wishlist)
         {
           return res.status(400).send("Wishlist not found");
