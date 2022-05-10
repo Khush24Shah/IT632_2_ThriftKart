@@ -1,7 +1,8 @@
 const { CartItems_API } = require("../backend");
 
-export const getCartItems = async (next) => {
-	await fetch(CartItems_API, {
+export const getCartItems = async (userid, next) => {
+	// console.log(userid);
+	await fetch(`${CartItems_API}find/${userid}/`, {
 		method: "GET",
 		headers: {
 			Accept: "application/json",

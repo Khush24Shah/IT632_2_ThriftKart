@@ -10,7 +10,7 @@ router.post("/", verifyToken, async (req, res) => {
 	const newCart = new Cart(req.body);
 	const userId = req.user._id;
 	let cart = await Cart.findOne({ userId: req.user._id });
-	console.log(req.body.products.productId);
+	console.log("________________________--", req.body.products.productId);
 	let product = await Product.findOne({ _id: req.body.products.productId });
 	if (!product) {
 		res.status(404).send("Item not found!");
@@ -118,7 +118,12 @@ router.delete("/:id", verifyToken, async (req, res) => {
 router.get("/find/:userId", verifyToken, async (req, res) => {
 	try {
 		const cart = await Cart.findOne({ userId: req.params.userId });
-		res.status(200).json(cart);
+		if (cart) res.status(200).json({ cart, empty: false });
+		else
+			res.status(200).json({
+				msg: "Cart empty",
+				empty: true,
+			});
 	} catch (err) {
 		res.status(500).json(err);
 	}

@@ -6,14 +6,13 @@ import { mobile } from "../responsive";
 
 import { useNavigate } from "react-router-dom";
 
-
 const Container = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
   position: relative;
   overflow: hidden;
-  ${mobile({ display: "none" })}
+  ${mobile({ display: "visible" })}
 `;
 
 const Arrow = styled.div`
@@ -52,11 +51,13 @@ const Slide = styled.div`
 
 const ImgContainer = styled.div`
   height: 100%;
+  width: 100%;
   flex: 1;
 `;
 
 const Image = styled.img`
   height: 80%;
+  width: 100%;
 `;
 
 const InfoContainer = styled.div`
@@ -83,7 +84,6 @@ const Button = styled.button`
 `;
 
 const Slider = () => {
-
   let navigate = useNavigate();
 
   const [slideIndex, setSlideIndex] = useState(0);
@@ -103,13 +103,13 @@ const Slider = () => {
       <Wrapper slideIndex={slideIndex}>
         {sliderItems.map((item) => (
           <Slide bg={item.bg} key={item.id}>
-            <ImgContainer>
+            <ImgContainer class="img">
               <Image src={item.img} />
             </ImgContainer>
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Button onClick={() =>navigate('/Product')}>SHOP NOW</Button>
+              <Button onClick={() => navigate("/Product")}>SHOW NOW</Button>
             </InfoContainer>
           </Slide>
         ))}
