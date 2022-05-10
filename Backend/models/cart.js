@@ -32,5 +32,10 @@ const CartSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-module.exports = mongoose.model("Cart", CartSchema);
+try{
+module.exports = mongoose.model("Cart");
+}
+catch
+{
+  module.exports = mongoose.model("Cart", CartSchema);
+}

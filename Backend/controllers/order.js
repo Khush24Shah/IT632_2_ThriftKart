@@ -1,5 +1,6 @@
 const Order = require('../models/order');
 const User = require('../models/customer');
+var Cart = require('../models/cart')
 
 require("dotenv").config();
 
