@@ -1,7 +1,6 @@
 const Order = require('../models/order');
-const Cart = require('../models/cart');
 const User = require('../models/customer');
-const config = require('config');
+
 require("dotenv").config();
 
 
