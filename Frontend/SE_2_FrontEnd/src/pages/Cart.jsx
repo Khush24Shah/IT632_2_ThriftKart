@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getCartItems } from "../data/cart";
 
 
 const Container = styled.div``;
@@ -159,6 +161,12 @@ const Button = styled.button`
 const Cart = () => {
 
   let navigate = useNavigate();
+
+  useEffect(async()=>{
+    await getCartItems((data)=>{
+      console.log(data);
+    })
+  })
 
   return (
     <Container>

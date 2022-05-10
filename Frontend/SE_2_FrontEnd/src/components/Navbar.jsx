@@ -114,8 +114,8 @@ const Navbar = () => {
           
           <MenuItem>
             {isAuthenticated() && <>
-              <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined onClick={() =>navigate('/Cart')}/>
+              <Badge badgeContent={4} color="primary"  onClick={() =>navigate('/Cart')}>
+              <ShoppingCartOutlined />
             </Badge>
             </>}
             
