@@ -1,40 +1,78 @@
 import React, { useState } from "react";
 import { FaEdit, FaWindows } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { ProfileData_API } from "../../backend";
+
+import Navbar from "../../components/Navbar";
 import "./Profile.css";
 const Profile = () => {
-  const [firstName, setFirstName] = useState("Value From Database");
-  const [lastName, setLastName] = useState("Value From Database");
-  const [email, setEmail] = useState("Value From Database");
-  const [dob, setDob] = useState("04-05-2000");
-  const [phone, setPhone] = useState("0000000000");
-  const [address, setAddress] = useState("Value From Database");
 
+
+  const [userData,setUserData] = useState(JSON.parse(localStorage.getItem("user")))
+  console.log(userData)
   const [editable, setEditable] = useState(false);
   const editfunc = () => {
     setEditable(true);
   };
   const validatesunc = () => {
-    if(firstName.length == 0)
+    if(userData?.fname.length == 0)
     {
         alert("FirstName required")
     }
-    if(lastName.length == 0)
+    if(userData?.lname.length == 0)
     {
         alert("LastName required")
     }
     var mailformat =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-if(!(email.match(mailformat)))
+if(!(userData?.email.match(mailformat)))
 {
 alert("You have entered an Invalid email address!"); 
 }
-    if(!(phone.length==10))
-    {
-        alert("Invalid Phone Number...!")
-    }
+    // if(!(userData?.mobile.length==10))
+    // {
+    //     alert("Invalid Phone Number...!")
+    // }
 
 
   };
+const handleChange = (name) => (event) => {
+		setUserData({ ...userData, error: false, [name]: event.target.value });
+	};
+  const clickSubmit=async(e)=>{
+    //e.preventDefault();
+    const uploadData= new FormData();
+    uploadData.append("fname",userData?.fname);
+    uploadData.append("lname",userData?.lname);
+    uploadData.append("email",userData?.email);
+    uploadData.append("dob",userData?.dob);
+    uploadData.append("mobile",userData?.mobile);
+    uploadData.append("address",userData?.address);
+    uploadData.append("password",userData?.password);
+    await fetch(
+      ProfileData_API,{
+        method:"PUT",
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem("token")}`,
+        },
+        body:uploadData,
+      }
+    )
+    .then((res)=>{
+      console.log(res)
+      return res.json()})
+    .then((resp)=>{
+      console.log(resp);
+      if(resp.data){
+        localStorage.setItem("user",JSON.stringify(userData))
+      }
+    })
+  };
+
+
+  const navigate = useNavigate();
   return (
+    <>
+    <Navbar/>
     <div className="profile-main">
       <i className="Text-profile"> Profile </i>
 
@@ -53,11 +91,10 @@ alert("You have entered an Invalid email address!");
             <td>
             <input
               type={"text"} 
-              onChange={(e) => {
-                e.preventDefault();
-                setFirstName(e.target.value);
-              }}
-              defaultValue={firstName}
+              onChange={
+                handleChange('fname')
+              }
+              value={userData?.fname}
             />{" "}
             </td>
             </tr>
@@ -70,11 +107,9 @@ alert("You have entered an Invalid email address!");
             <td>
             <input
               type={"text"}
-              onChange={(e) => {
-                e.preventDefault();
-                setLastName(e.target.value);
-              }}
-              defaultValue={lastName}
+              onChange={                handleChange('lname')
+              }
+              value={userData?.lname}
             />{" "}
             </td>
             </tr>
@@ -88,11 +123,10 @@ alert("You have entered an Invalid email address!");
             <td>
             <input
               type={"email"}
-              onChange={(e) => {
-                e.preventDefault();
-                setEmail(e.target.value);
-              }}
-              defaultValue={email}
+              onChange={
+                handleChange('email')
+              }
+              value={userData?.email}
             />{" "}
             </td>
             </tr>
@@ -105,11 +139,10 @@ alert("You have entered an Invalid email address!");
             <td>
             <input
               type={"phone"}
-              onChange={(e) => {
-                e.preventDefault();
-                setPhone(e.target.value);
-              }}
-              defaultValue={phone}
+              onChange={
+                handleChange('mobile')
+              }
+              value={userData?.mobile}
             />{" "}
             </td>
             </tr>
@@ -122,11 +155,10 @@ alert("You have entered an Invalid email address!");
             <td>
             <input
               type={"text"}
-              onChange={(e) => {
-                e.preventDefault();
-                setAddress(e.target.value);
-              }}
-              defaultValue={address}
+              onChange={
+                handleChange('address')
+              }
+              value={userData?.address}
             />{" "}
             </td>
             </tr>
@@ -140,11 +172,10 @@ alert("You have entered an Invalid email address!");
             <td>
             <input 
               type={"date"} className="dob" 
-              onChange={(e) => {
-                e.preventDefault();
-                setDob(e.target.value);
-              }}
-              defaultValue={2012-3-23}    
+              onChange={
+                handleChange("dob")
+              }
+              value={userData?.dob}    
             />{" "}
             </td>
             </tr>
@@ -157,6 +188,8 @@ alert("You have entered an Invalid email address!");
             onClick={(event) => {
               event.preventDefault();
               validatesunc();
+              clickSubmit(event);
+
             }}>
             Save Info
           </button>
@@ -172,6 +205,7 @@ alert("You have entered an Invalid email address!");
             id=""
             onClick={(event) => {
               event.preventDefault();
+              navigate("/Cart")
             }}
           >
             My Cart
@@ -182,6 +216,7 @@ alert("You have entered an Invalid email address!");
             id=""
             onClick={(event) => {
               event.preventDefault();
+              navigate("/Wishlist")
             }}
           >
             Wish List
@@ -199,6 +234,7 @@ alert("You have entered an Invalid email address!");
         </div>
       </div>
     </div>
+    </>
   );
 };
 
