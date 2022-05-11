@@ -16,6 +16,7 @@ import HouseProducts from "./components/HouseProducts";
 import MensCloths from "./components/MensCloths";
 import WomenCloths from "./components/WomenCloths";
 import { products } from "./data/products";
+import ProductAdd from "./pages/ProductAdd";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Profile from "./pages/Profile/Profile"
@@ -55,6 +56,7 @@ const [prods,setProds] = useState([]);
           <Route path="/HouseProducts" element={<HouseProducts />} />
           <Route path="/MensCloths" element={<MensCloths />} />
           <Route path="/WomensCloths" element={<WomenCloths />} />
+          <Route path="/ProductAdd" element={<ProductAdd />} />
       
     </Routes>
   </BrowserRouter>
