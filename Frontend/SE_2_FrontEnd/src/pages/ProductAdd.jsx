@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import {generateOTP} from "../helper/generateOTP"
-import {signup} from "../data/user"
+import {padd} from "../data/ProductAdd"
 
 
 import Navbar from "../components/Navbar"; 
@@ -103,10 +103,10 @@ const ProductAdd = () => {
       })
   }
 
-  const userSignUp = async(event) =>{
+  const AddingProducts = async(event) =>{
     event.preventDefault();
-    await signup(userData);
-    return navigate("/Login");
+    await padd(userData,d=>{console.log(d)});
+  
   }
   return (
     <>
@@ -131,7 +131,7 @@ const ProductAdd = () => {
 											onChange={handleChange("rating")} />
           {/* <Input type="password" placeholder="confirm password" value={password2}
 											onChange={handleChange("password2")} /> */}
-          <Button onClick={userSignUp} >CREATE</Button>
+          <Button onClick={AddingProducts} >CREATE</Button>
         </Form>
       </Wrapper>
     </Container>

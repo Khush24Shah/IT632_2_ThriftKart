@@ -48,6 +48,16 @@ const getAllProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
+	if(req.body=="")
+	{
+		console.log("null");
+		req.body.featured=0;
+	}
+	else
+	{
+		req.body.featured=1;
+	}
+	console.log(req.body);
 	const product = await Product.create(req.body);
 	res.status(201).json({ product });
 };

@@ -96,11 +96,12 @@ const Register = () => {
 
   const generate = async(event) =>{
     event.preventDefault();
-      await generateOTP({email},(data)=>{
+      await generateOTP({email},(d)=>{
         setUserData({
           ...userData,
-          // hashedOTP:data?.hashedOTP,
+          hashedOTP:d,
         })
+       console.log(d);
       })
   }
 

@@ -9,8 +9,8 @@ exports.emailsend = (req, res) => {
 	console.log(otp1);
 
 	const otp = bcrypt.hashSync(otp1.toString(10), 8);
-	// req.cookie(otp1, bcrypt.hashSync(otp1.toString(10), 8), { expire: 360000 + Date.now() });
-	// console.log("____EMAILsend______", req.session);
+	req.cookies.otp=bcrypt.hashSync(otp1.toString(10), 8);
+	
 	var transporter = nodemailer.createTransport({
 		service: "gmail",
 		auth: {
@@ -31,8 +31,8 @@ exports.emailsend = (req, res) => {
 	transporter.sendMail(mailOptions, function (err, info) {
 		if (err) console.log(err);
 		else console.log(info);
-
-		res.status(200).send({ message: "otp sent  successfully", hashedOTP: otp });
+		var hashedOTP=otp;
+		res.status(200).json( hashedOTP);
 	});
 };
 
@@ -47,10 +47,10 @@ exports.signup = (req, res) => {
 		address: req.body.address,
 		password: bcrypt.hashSync(req.body.password, 8),
 	});
-	// console.log(req.body.otp);
-	// console.log(req.cookie.otp);
+	console.log(req.body.otp);
+	//console.log(req.cookies.otp);
 
-	// if (bcrypt.compareSync(req.body.otp, req.body.hashedOTP)) {
+	if (bcrypt.compareSync(req.body.otp, req.body.hashedOTP)) {
 	user.save((err, user) => {
 		// console.log(err);
 		if (err) {
@@ -64,11 +64,11 @@ exports.signup = (req, res) => {
 			});
 		}
 	});
-	// } else {
-	// 	res.status(500).send({
-	// 		message: "Wrong otp",
-	// 	});
-	// }
+	} else {
+	 	res.status(500).send({
+ 		message: "Wrong otp",
+	 	});
+	 }
 };
 
 exports.signin = (req, res) => {
