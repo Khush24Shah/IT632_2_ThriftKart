@@ -1,4 +1,4 @@
-import { Add, Remove } from "@material-ui/icons";
+import { Add, Delete, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -8,6 +8,8 @@ import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect,useState } from "react";
 import { getCartItems } from "../data/cart";
+import { deleteCart, updateCart } from "../helper/cart";
+import { FaTrash } from "react-icons/fa";
 
 const Container = styled.div``;
 
@@ -159,7 +161,18 @@ const Button = styled.button`
 
 const Cart = () => {
 
+
+  const [plusMinus, setPlusMinus] = useState(1);
+
+  const handlePlus = () => {
+		setPlusMinus(plusMinus + 1);
+	};
+	const handleMinus = () => {
+		if (plusMinus > 1) setPlusMinus(plusMinus - 1);
+	};
+
   const [cartData,setCartData] = useState({});
+  const [toggle,setToggle] = useState(false);
   let navigate = useNavigate();
   useEffect(async()=>{
     const id = JSON.parse(localStorage.getItem("user"))?._id;
@@ -168,7 +181,28 @@ const Cart = () => {
       console.log(data);
       data?.cart && setCartData(data?.cart);
     })
-  },[])
+  },[toggle])
+
+  const updateMyCart = async(event,prodid,qty) =>{
+    event.preventDefault();
+    if(qty>0){
+      const id = JSON.parse(localStorage.getItem("user"))?._id;
+      await updateCart(id,prodid,qty,(data)=>{
+      console.log(data);
+      if(data?.bill){
+        setToggle(!toggle);
+      }
+    })
+    }
+  }
+
+  const clearCart = async(event) =>{
+    event.preventDefault();
+    await deleteCart(cartData?._id,(data)=>{
+      console.log(data);
+      setToggle(!toggle);
+    })
+  }
   return (
     <Container>
       <Navbar />
@@ -181,7 +215,7 @@ const Cart = () => {
             <TopText>Shopping Bag({cartData?.products  && cartData?.products.length || 0})</TopText>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
+          <TopButton type="filled"  onClick={(e)=>{clearCart(e)}} >Clear Cart</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -190,20 +224,25 @@ const Cart = () => {
               <Product>
               <ProductDetail>
                 <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
+                    <FaTrash/>
                 <Details>
                   <ProductName>
                     <b>Product:</b> {product?.name}
                   </ProductName>
                   <ProductId>
-                    <b>ID:</b> {product?._id}
+                    <b>ID:</b> {product?.productId}
                   </ProductId>
                 </Details>
               </ProductDetail>
               <PriceDetail>
                 <ProductAmountContainer>
-                  <Add />
+                  <Add onClick={(e)=>{
+                    updateMyCart(e,product?.productId,product?.qty+1);
+                  }} />
                   <ProductAmount>{product?.qty}</ProductAmount>
-                  <Remove />
+                  <Remove onClick={(e)=>{
+                    updateMyCart(e,product?.productId,product?.qty-1);
+                  }} />
                 </ProductAmountContainer>
                 <ProductPrice>₹ {product?.price}</ProductPrice>
               </PriceDetail>

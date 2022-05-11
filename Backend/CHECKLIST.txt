@@ -1,10 +1,3 @@
 
-APIs
-1. products (CRUD) (Ongoing, [error fix pending])
-2. user login/signup (basic done, [more strict validation pending])
-3. product reviews
-4. cart
-5. user profile data
-6. admin's report
-7. payment (razorpay api)/ checkout
-8. order details
+1. product delete in a cart
+2. page update without refresh on clear cart

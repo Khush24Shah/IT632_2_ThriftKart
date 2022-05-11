@@ -2,30 +2,29 @@ const jwt = require("jsonwebtoken");
 User = require("../models/customer");
 
 const authVerify = (req, res, next) => {
-	if (req.headers && req.headers.authorization && req.headers.authorization.split(" ")[0] === "JWT") {
+	console.log(req.headers.authorization);
+	if (req.headers && req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
 		jwt.verify(req.headers.authorization.split(" ")[1], process.env.API_SECRET, function (err, decode) {
 			if (err) req.user = undefined;
-			console.log(decode._id);
+			console.log("authVerify ", decode, err);
 			User.findOne({
 				_id: decode._id,
-			}).exec((err,user) => {
-
-				
+			}).exec((err, user) => {
 				if (err) {
-					console.log('error here');
+					console.log("error here");
 					res.status(500).send({
 						message: err,
 					});
 				} else {
-					console.log(user);
+					console.log("authVerify,", user);
 					req.user = user;
-					
+
 					next();
 				}
 			});
 		});
 	} else {
-		console.log('undefined');
+		console.log("in verify token", "undefined");
 		req.user = undefined;
 		next();
 	}
