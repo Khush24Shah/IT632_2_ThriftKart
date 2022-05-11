@@ -1,3 +1,2 @@
 
 1. product delete in a cart
-2. page update without refresh on clear cart

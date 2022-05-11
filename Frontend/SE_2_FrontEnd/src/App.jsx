@@ -4,6 +4,7 @@ import ProductList from "./pages/ProductList";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
 import Categories from "./components/Categories";
 import CategoryItem from "./components/CategoryItem";
 import Navbar from "./components/Navbar";
@@ -43,6 +44,7 @@ const [prods,setProds] = useState([]);
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Cart" element={<Cart />} />
+          <Route path="/Wishlist" element={<Wishlist />} />
           <Route path="/Categories" element={<Categories />} />
           <Route path="/CategoryItem" element={<CategoryItem />} />
           <Route path="/Navbar" element={<Navbar />} />

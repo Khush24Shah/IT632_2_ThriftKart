@@ -7,7 +7,8 @@ import styled from "styled-components";
 
 import { useNavigate } from "react-router-dom";
 
-
+import { addToCart } from "../helper/cart";
+import { addToWishlist } from "../helper/wishlist";
 const Info = styled.div`
   opacity: 0;
   width: 100%;
@@ -73,22 +74,34 @@ const Icon = styled.div`
 const Product = ({ item }) => {
 
   let navigate = useNavigate();
-
-  const addToWishlist = () => {}
-  const addToCart = () => {}
+console.log(item)
+  const addCart = async(event) =>{
+    event.preventDefault();
+    await addToCart(item?._id,1,(data)=>{
+      console.log(data);
+    })
+    return navigate("/Cart");
+  }
+  const addWishlist = async(event) =>{
+    event.preventDefault();
+    await addToWishlist(item?._id,(data)=>{
+      console.log(data);
+    })
+    return navigate("/Wishlist");
+  }
   return (
     <Container>
       <Circle />
       <Image src={item.img} />
       <Info>
         <Icon>
-          <ShoppingCartOutlined onClick={(e)=>addToCart(e)} />
+          <ShoppingCartOutlined onClick={(e)=>addCart(e)} />
         </Icon>
         <Icon>
           <SearchOutlined onClick={()=>{navigate(`/Product/${item._id}`)}} />
         </Icon>
         <Icon>
-          <FavoriteBorderOutlined onClick={(e)=>addToWishlist(e)} />
+          <FavoriteBorderOutlined onClick={(e)=>addWishlist(e)} />
         </Icon>
       </Info>
     </Container>
