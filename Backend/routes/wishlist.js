@@ -1,5 +1,5 @@
 
-const Wish = require("../models/wishlist");
+const Wishlist = require("../models/wishlist");
 const Product = require("../models/product");
 const verifyToken = require("../middleware/authVerify");
 
@@ -9,134 +9,118 @@ const router = require("express").Router();
 //CREATE
 
 router.post("/", verifyToken, async (req, res) => {
-  const newWish = new Wish(req.body);
-  const userId = req.user._id; 
-   let wish = await Wish.findOne({userId:req.user._id});
-        console.log(req.body.products.productId);
-        let product = await Product.findOne({_id: req.body.products.productId});
-        if(!product){
-            res.status(404).send('Item not found!')
-        }
-        const price = product.price;
-        const name = product.name;
-        const productId = req.body.products.productId;
-        if(wish){
-          let itemIndex = wish.products.findIndex(p => p.productId == productId);
-          console.log(productId);
-          console.log(itemIndex);
-          if(itemIndex > -1)
-            {
-                let productItem = wish.products[itemIndex];
-                wish.products[itemIndex] = productItem;
-            }
-            else
-            {
-              wish.products.push({ productId, name, price });
-            }
-            wish = await wish.save();
-            return res.status(201).send(wish);
-        }
-        else {
-          
-          try {
-            
-            const savedWish = await Wish.create({
-              userId,
-              products: [{ productId, name, price }],
-              });
-            res.status(200).json(savedWish);
-          } catch (err) {
-            res.status(500).json(err);
-          }
-        }
-  
+	const newWishlist = new Wishlist(req.body);
+	const userId = req.user._id;
+	console.log(req.body.productId);
+	let wishlist = await Wishlist.findOne({ userId: req.user._id });
+	let product = await Product.findOne({ _id: req.body.productId });
+	if (!product) {
+		res.status(404).send("Item not found!");
+	}
+	const price = product.price;
+	const name = product.name;
+	const productId = req.body.productId;
+	if (wishlist) {
+		let itemIndex = wishlist.products.findIndex((p) => p.productId == productId);
+		console.log(productId);
+		console.log(itemIndex);
+		if (itemIndex > -1) {
+			let productItem = wishlist.products[itemIndex];
+			console.log(productItem);
+			wishlist.products[itemIndex] = productItem;
+		} else {
+			wishlist.products.push({ productId, name, price });
+		}
+
+		wishlist = await wishlist.save();
+		return res.status(201).send(wishlist);
+	} else {
+		try {
+			const savedWishlist = await Wishlist.create({
+				userId,
+				products: [{ productId, name, price }],
+			});
+			res.status(200).json(savedWishlist);
+		} catch (err) {
+			res.status(500).json(err);
+		}
+	}
 });
 
 //UPDATE
 router.put("/:id", verifyToken, async (req, res) => {
-  try {
+	try {
+		let wishlist = await Wishlist.findOne({ userId: req.user._id });
+		let product = await Product.findOne({ _id: req.body.productId });
+		if (!product) {
+			res.status(404).send("Item not found!");
+		}
+		const productID = req.body.productId;
+		if (!wishlist) {
+			return res.status(400).send("Wishlist not found");
+		} else {
+			console.log("here in else");
+			let itemIndex = wishlist.products.findIndex((p) => p.productId == productId);
 
-    const newWish = new Wish(req.body);
-  const userId = req.user._id; 
-   let wish = await Wish.findOne({userId:req.user._id});
-        console.log(req.body.products.productId);
-        let product = await Product.findOne({_id: req.body.products.productId});
-        if(!product){
-            res.status(404).send('Item not found!')
-        }
-        const price = product.price;
-        const name = product.name;
-        const productId = req.body.products.productId;
-        
-        if(!wish)
-        {
-          return res.status(400).send("Wish not found");
-        }
-        else
-        {
-          console.log("here in else");
-          let itemIndex = wish.products.findIndex(p => p.productId == productId);
-          
-          if(itemIndex == -1)
-            {
-              return res.status(400).send("Product not found");
-            }
-            else
-            {
-              console.log("product item");
-         
-              let productItem = wish.products[itemIndex];
-              wish.products[itemIndex] = productItem;
-              console.log(wish);
-            }
-            wish = await wish.save();
-           // console.log(wish);
-            return res.status(201).send(wish);
-        }  
-        
+			if (itemIndex == -1) {
+				return res.status(400).send("Product not found");
+			} else {
+				console.log("product item");
 
-    /* const updatedWish = await Wish.findByIdAndUpdate(
+				let productItem = wishlist.products[itemIndex];
+				wishlist.products[itemIndex] = productItem;
+				console.log(wishlist);
+			}
+			if (product.qty == 0) {
+				wishlist.products.splice(itemIndex, 1);
+			}
+		}
+		wishlist = await wishlist.save();
+		// console.log(wishlist);
+		return res.status(201).send(wishlist);
+
+		/* const updatedWishlist = await Wishlist.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedWish); */
-  } catch (err) {
-    res.status(500).json(err);
-  }
+    res.status(200).json(updatedWishlist); */
+	} catch (err) {
+		res.status(500).json(err);
+	}
 });
 
 //DELETE
 router.delete("/:id", verifyToken, async (req, res) => {
-  try {
-    await Wish.findByIdAndDelete(req.params.id);
-    res.status(200).json("Wish has been deleted...");
-  } catch (err) {
-    res.status(500).json(err);
-  }
+	try {
+		await Wishlist.findByIdAndDelete(req.params.id);
+		res.status(200).json("Wishlist has been deleted...");
+	} catch (err) {
+		res.status(500).json(err);
+	}
 });
 
-//GET USER CART
+//GET USER Wishlist
 router.get("/find/:userId", verifyToken, async (req, res) => {
-  try {
-    const wish = await Wish.findOne({ userId: req.params.userId });
-    res.status(200).json(wish);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+	try {
+		const wishlist = await Wishlist.findOne({ userId: req.params.userId });
+		res.status(200).json(wishlist);
+	} catch (err) {
+		res.status(500).json(err);
+	}
 });
 
 // //GET ALL
 
 router.get("/", verifyToken, async (req, res) => {
-  try {
-    const wishs = await Wish.find();
-    res.status(200).json(wishs);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+	try {
+		const wishlists = await Wishlist.find();
+		res.status(200).json(wishlists);
+	} catch (err) {
+		res.status(500).json(err);
+	}
 });
 
 module.exports = router;

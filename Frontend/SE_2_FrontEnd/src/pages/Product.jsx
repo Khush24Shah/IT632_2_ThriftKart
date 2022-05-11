@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect,useState } from "react";
 import { Products_API } from "../backend";
 import { singleProduct } from "../data/products";
-
+import {addToCart} from "../helper/cart"
 
 const Container = styled.div``;
 
@@ -130,6 +130,9 @@ const Product = () => {
 
   const addcart = async(event) =>{
     event.preventDefault();
+    await addToCart(product?._id,plusMinus,(data)=>{
+      console.log(data);
+    })
     return navigate("/Cart");
   }
   const [product,setProduct] = useState({});
@@ -151,6 +154,7 @@ const Product = () => {
 	const handleMinus = () => {
 		if (plusMinus > 1) setPlusMinus(plusMinus - 1);
 	};
+
   return (
     loading? <h1>Loading...</h1>:<Container>
       <Navbar />

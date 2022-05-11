@@ -1,0 +1,2 @@
+1. wihslist data display on frontend
+2. page update without refresh on clear cart

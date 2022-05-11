@@ -11,9 +11,7 @@ import MiniSlider from "../components/MiniSlider";
 
 import { useNavigate } from "react-router-dom";
 
-
 const Home = () => {
-
   let navigate = useNavigate();
 
   return (
@@ -25,8 +23,8 @@ const Home = () => {
       <Announcement1 />
       <Categories />
       <MiniSlider />
-      <Newsletter/>
-      <Footer/>
+      <Newsletter />
+      <Footer />
     </div>
   );
 };
