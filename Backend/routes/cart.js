@@ -9,21 +9,22 @@ const router = require("express").Router();
 router.post("/", verifyToken, async (req, res) => {
 	const newCart = new Cart(req.body);
 	const userId = req.user._id;
+	console.log("cart post", req.user);
 	let cart = await Cart.findOne({ userId: req.user._id });
-	console.log("________________________--", req.body.products.productId);
-	let product = await Product.findOne({ _id: req.body.products.productId });
+	console.log("________________________--", req.body.productId);
+	let product = await Product.findOne({ _id: req.body.productId });
 	if (!product) {
 		res.status(404).send("Item not found!");
 	}
 	const price = product.price;
 	const name = product.name;
-	const productId = req.body.products.productId;
-	let qty = req.body.products.qty;
+	const productId = req.body.productId;
+	let qty = req.body.qty;
 	console.log(price);
 	if (cart) {
 		let itemIndex = cart.products.findIndex((p) => p.productId == productId);
-		console.log(productId);
-		console.log(itemIndex);
+		// console.log(productId);
+		// console.log(itemIndex);
 		if (itemIndex > -1) {
 			let productItem = cart.products[itemIndex];
 			console.log(productItem.qty);
@@ -53,24 +54,20 @@ router.post("/", verifyToken, async (req, res) => {
 //UPDATE
 router.put("/:id", verifyToken, async (req, res) => {
 	try {
-		const newCart = new Cart(req.body);
-		const userId = req.user._id;
-		let cart = await Cart.findOne({ userId: req.user._id });
-		console.log(req.body.products.productId);
-		let product = await Product.findOne({ _id: req.body.products.productId });
+		console.log("__________________-", req.body.productId);
+		let cart = await Cart.findOne({ userId: req.params.id });
+		let product = await Product.findOne({ _id: req.body.productId });
 		if (!product) {
 			res.status(404).send("Item not found!");
 		}
-		const price = product.price;
-		const name = product.name;
-		const productId = req.body.products.productId;
-		let qty = req.body.products.qty;
+		const productId = req.body.productId;
+		let qty = req.body.qty;
 
 		if (!cart) {
 			return res.status(400).send("Cart not found");
 		} else {
-			console.log("here in else");
 			let itemIndex = cart.products.findIndex((p) => p.productId == productId);
+			console.log("here in else");
 
 			if (itemIndex == -1) {
 				return res.status(400).send("Product not found");

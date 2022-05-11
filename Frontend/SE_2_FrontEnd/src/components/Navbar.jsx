@@ -7,6 +7,7 @@ import {signout} from "../data/user"
 import { useNavigate,Link } from "react-router-dom";
 import { isAuthenticated } from "../data/user";
 import "./Navbar.css";
+import { FaUser } from "react-icons/fa";
 
 
 const Container = styled.div`
@@ -104,14 +105,6 @@ const Navbar = () => {
           {/* <ArrowDropDown></ArrowDropDown> */}
           {/* <MenuItem onClick={() =>navigate('/Categories')}>Categories</MenuItem> */}
           
-<div class="dropdown">
-  <button class="dropbtn">Categories</button>
-  <div class="dropdown-content">
-    <a href="#">Electronics</a>
-    <a href="#">Furniture</a>
-    <a href="#">Clothing</a>
-  </div>
-</div>
 <MenuItem onClick={() =>navigate('/ProductList')}>All Products</MenuItem>
         </Left>
         
@@ -131,10 +124,10 @@ const Navbar = () => {
           
           <MenuItem>
             {isAuthenticated() && <>
-              <Badge badgeContent={4} color="primary"  onClick={() =>navigate('/Cart')}>
-              <ShoppingCartOutlined />
-            </Badge>
-            </>}
+              <ShoppingCartOutlined  style={{marginLeft:"2px",height:"50px"}}  onClick={()=>navigate("/Cart")} />
+              <FaUser  style={{marginLeft:"2px",height:"50px"}}  onClick={()=>navigate("/Profile")} />
+            </>
+            }
             
           </MenuItem>
         </Right>
