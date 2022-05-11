@@ -18,7 +18,7 @@ const purchaseRouter = require("./routes/purchase");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorMiddleware = require("./middleware/error-handler");
 const orderRouter = require("./routes/order");
-const wishlistRouter = require("./routes/wishlist");
+
 
 // middleware
 app.use(cors());

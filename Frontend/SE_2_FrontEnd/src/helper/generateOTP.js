@@ -9,7 +9,7 @@ export const generateOTP = async (data, next) => {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(data),
-	}).then((data) => {
-		next(data);
+	}).then((data) =>data.json()).then(d=>{
+		next(d);
 	});
 };
