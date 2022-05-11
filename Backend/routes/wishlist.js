@@ -1,6 +1,8 @@
-const Wishlist = require("../models/Wishlist");
+
+const Wishlist = require("../models/wishlist");
 const Product = require("../models/product");
 const verifyToken = require("../middleware/authVerify");
+
 
 const router = require("express").Router();
 
