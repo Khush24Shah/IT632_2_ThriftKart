@@ -7,7 +7,9 @@ const router = require("express").Router();
 //CREATE
 
 router.post("/", verifyToken, async (req, res) => {
+	console.log("iiiiiiiiiiiiiiiiiiiid" + req.body.productId);
 	const newCart = new Cart(req.body);
+	console.log(req.user);
 	const userId = req.user._id;
 	console.log("cart post", req.user);
 	let cart = await Cart.findOne({ userId: req.user._id });
@@ -103,6 +105,15 @@ router.put("/:id", verifyToken, async (req, res) => {
 
 //DELETE
 router.delete("/:id", verifyToken, async (req, res) => {
+	try {
+		await Cart.findByIdAndDelete(req.params.id);
+		res.status(200).json("Cart has been deleted...");
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+router.delete("product/:id", verifyToken, async (req, res) => {
 	try {
 		await Cart.findByIdAndDelete(req.params.id);
 		res.status(200).json("Cart has been deleted...");

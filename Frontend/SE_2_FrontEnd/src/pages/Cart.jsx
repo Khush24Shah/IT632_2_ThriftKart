@@ -159,6 +159,8 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
+
+  
 const Cart = () => {
 
 
@@ -173,6 +175,66 @@ const Cart = () => {
 
   const [cartData,setCartData] = useState({});
   const [toggle,setToggle] = useState(false);
+  function loadRazorpay() {
+    return new Promise(resolve =>{
+      const script= document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
+      script.onload = () =>{
+          resolve(true);
+      }
+      script.onerror = () => {
+          resolve(false);
+      }
+      alert("cliked");
+      console.log("clicked");
+    })
+    
+  
+  
+    
+  }
+  
+   async function displayRazorpay(){
+     const  res = await loadRazorpay();
+     if(!res)
+     {
+        alert('Razorpay SDK failed to load');
+        return;
+     }
+      const options = {
+        "key": "rzp_test_KGXv07JQ5hkHS9",
+  
+        "amount": cartData.bill * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "ThriftKart",
+        "description": "Used Goods Buying and selling system",
+        "handler": function (response){
+            alert("successfull");
+            
+        },
+       
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#F9681A"
+        }
+    };
+    var rzp1 = new window.Razorpay(options);
+    rzp1.on("payment.failed", function (response) {
+      console.log(response.error.code);
+      console.log(response.error.description);
+      console.log(response.error.source);
+      console.log(response.error.step);
+      console.log(response.error.reason);
+      console.log(response.error.metadata.order_id);
+      console.log(response.error.metadata.payment_id);
+      alert(response.error.description);
+    });
+    rzp1.open();  
+  }
   let navigate = useNavigate();
   useEffect(async()=>{
     const id = JSON.parse(localStorage.getItem("user"))?._id;
@@ -203,6 +265,9 @@ const Cart = () => {
       setToggle(!toggle);
     })
   }
+ 
+
+  
   return (
     <Container>
       <Navbar />
@@ -259,7 +324,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>₹ {cartData?.bill}</SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
+            <Button onClick={displayRazorpay}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
