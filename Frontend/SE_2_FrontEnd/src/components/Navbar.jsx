@@ -89,6 +89,7 @@ const Navbar = () => {
     event.preventDefault();
     await signout()
     setToggle(!toggle);
+    navigate('/Login')
   }
 
   useEffect(()=>{

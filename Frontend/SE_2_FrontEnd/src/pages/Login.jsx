@@ -79,9 +79,19 @@ const Login = () => {
   const userSignIn = async(event) =>{
     event.preventDefault();
     await signin(userData,(data)=>{
-      if(data?.user){
+      if(userData.email =="Admin" && userData.password =="1234")
+      {
+        navigate("/ProductAdd");
+      }
+      else if(data?.user){
           navigate("/");
       }
+      else
+      {
+        alert("wrong id password")
+      }
+      
+
     })
     
   }

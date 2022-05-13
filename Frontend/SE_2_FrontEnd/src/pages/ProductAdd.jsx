@@ -104,9 +104,17 @@ const ProductAdd = () => {
   }
 
   const AddingProducts = async(event) =>{
+    if(userData.name && userData.stock && userData.categories && userData.featured && userData.gender && userData.price && userData.rating)
+    {
     event.preventDefault();
     await padd(userData,d=>{console.log(d)});
     alert("product added");
+    window.location.reload();
+    }
+    else
+    {
+      alert("field icomplete");
+    }
   
   }
   return (
