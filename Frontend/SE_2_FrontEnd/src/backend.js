@@ -12,6 +12,7 @@ export const ProfileData_API = `${BACKEND}api/v1/profileupdate/`;
 export const Products_API = `${BACKEND}api/v1/products/`;
 export const MyOrders_API = `${BACKEND}api/get_user_orders/`;
 export const CartItems_API = `${BACKEND}api/v1/cart/`;
+export const order_API = `${BACKEND}api/v1/order/`;
 export const WishlistItems_API = `${BACKEND}api/v1/wishlist/`;
 export const ProductAdd_API = `${BACKEND}api/v1/product/`;
 //Payment APIs
