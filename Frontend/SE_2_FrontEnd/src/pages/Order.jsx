@@ -1,5 +1,5 @@
 
-import React, { useEffect,useState } from "react";
+import React from "react";
 import ReactTable from "react-table";  
 
 import Footer from "../components/Footer";
@@ -20,79 +20,8 @@ ${mobile({ padding: "10px", flexDirection:"column" })}
 
 const Order = () =>{
     
-  const [orderData,setorderData] = useState({});
-    const data1 = [
-        {
-          key:1,
-          orderid:"X407-92415",
-          itemname:"boAt Earphones",
-          orderdate:"8-May-2022",
-          qty:"2",
-          status:"Shipped",
-          ordertotal:" ₹999.00 ",
-          paymentmethod:"COD"
-        },
-        {
-          key:2,
-          orderid:"S908-78900",
-          itemname:"Samsung-M20 Mobile",
-          orderdate:"27-April-2022",
-          qty:"1",
-          status:"Shipped",
-          ordertotal:" ₹12999.00 ",
-          paymentmethod:"COD"
-        },
-        {
-          key:3,
-          orderid:"S888-79087",
-          itemname:"Diary",
-          orderdate:"17-Mar-2022",
-          qty:"3",
-          status:"Return",
-          ordertotal:" ₹1000.00 ",
-          paymentmethod:"COD"
-        },
-        {
-          key:4,
-          orderid:"XU88-90908",
-          itemname:"Sofa",
-          orderdate:"24-Feb-2022",
-          qty:"3",
-          status:"Completed",
-          ordertotal:" ₹1999.00 ",
-          paymentmethod:"COD"
-        },
-        {
-          key:5,
-          orderid:"XU89-97899",
-          itemname:"Waterbottel",
-          orderdate:"1-Jan-2022",
-          qty:"2",
-          status:"Completed",
-          ordertotal:" ₹599.00 ",
-          paymentmethod:"COD"
-        },
-        {
-          key:6,
-          orderid:"AS89-09999",
-          itemname:"NightLamp",
-          orderdate:"22-Dec-2021",
-          qty:"4",
-          status:"Completed",
-          ordertotal:" ₹4000.00 ",
-          paymentmethod:"COD"
-        },
-        {
-          key:7,
-          orderid:"RW12-00008",
-          itemname:"T-Shirt",
-          orderdate:"10-Dec-2021",
-          qty:"5",
-          status:"Completed",
-          ordertotal:" ₹3000.00 ",
-          paymentmethod:"COD"
-        }
-        ];
+ 
+   
         
         const columns = [
           {
@@ -132,21 +61,98 @@ const Order = () =>{
           },
         ];
         var data ;
-        useEffect(async()=>{
-            
-            await getorderItems(d=>{
+        const cout = 1;
+        const pgl=()=>{
+          console.log(cout);
+            if(cout)
+                {
+             getorderItems(d=>{
               data = d;
-                var t  =  document.getElementById("Tid");
-            })
-          })
+              console.info("d1"+data);
+                
+                
+                    for(let j in d)
+                    {
+                        var newtd = document.createElement('tr');
+     document.getElementById("trh").appendChild(newtd);
+                    for(let i in data[j].products)
+                    {
+                        if(data[j].products[i].qty)
+                        {
+                            var newtr = document.createElement('tr');
+                            document.getElementById("trh").appendChild(newtr);
+                            var newtd = document.createElement('td');
+                            document.getElementById("trh").appendChild(newtd);
+                            var newtd = document.createElement('td');
+                            var t = document.createTextNode(data[j].products[i].name);
+                            newtd.appendChild(t);
+                            document.getElementById("trh").appendChild(newtd);
+                           
+                             var newtd = document.createElement('td');
+                            var bt = document.createElement('input');
+                            bt.type="text";
+                            bt.readOnly=true;
+                            bt.value=data[j].products[i].qty;
+                            bt.style.width="50px";
+                            newtd.appendChild(bt);
+                            document.getElementById("trh").appendChild(newtd);
+                           
+                             var newtd = document.createElement('td');
+                             newtd.id=data[j].products[i].name+"price";
+                             var t = document.createTextNode(data[j].products[i].price);
+                            newtd.appendChild(t);
+                            document.getElementById("trh").appendChild(newtd);
+                            
+                            
+                           
+                        //<td><input type="button" value="Remove" class="btn" onclick="RemoveRow(this)"></button></td>
+                    
+                        }
+                    }
+                   
+                    
+                
+     var newtd = document.createElement('tr');
+     document.getElementById("trh").appendChild(newtd);
+                   var newth = document.createElement('th');
+                   
+                    newtd.appendChild(newth);
+                    
+                    var newth = document.createElement('th');
+                    var t = document.createTextNode( data[j]._id); 
+                    newth.appendChild(t); 
+                    newtd.appendChild(newth);
+                    var newth = document.createElement('th');
+                    var t = document.createTextNode( "Total Amount");      
+                    newth.appendChild(t); 
+                    newtd.appendChild(newth);
+                    
+                    var newth = document.createElement('th');
+                    var t = document.createTextNode( data[j].bill);
+                    newth.appendChild(t); 
+                    newtd.appendChild(newth);
+                    document.getElementById("trh").appendChild(newtd);
+                    }
+                   
+                }
+                
+            )
+          }}
         return (
-            <div className="TV">
+            <div className="TV" onLoad={pgl}>
             <Navbar/>
             <Wrapper>
-                {console.log(data)}
+                
             <h1><b> YOUR ORDERS </b></h1>
-            <Table defaultPageSize = {2}  
-                  pageSizeOptions = {[2,4, 6]}    columns={columns}  id = "Tid"/>
+            <table  id="trh" class="cart_table" cellspacing="20px" width="100%">
+                <tr>
+                    <th></th>
+                    <th>Product Name</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                   
+                </tr>
+                </table>
      
             </Wrapper>
            

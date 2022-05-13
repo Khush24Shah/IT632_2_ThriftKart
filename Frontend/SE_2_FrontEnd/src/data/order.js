@@ -11,11 +11,30 @@ export const getorderItems = async ( next) => {
 		},
 	})
 		.then((res) => {
-			console.log(res);
-			return res.json();
+						return res.json();
 		})
 		.then((data) => {
-			console.log(data);
+			console.log("ck"+data);
 			next(data);
+		});
+};
+
+export const addorder = async ( user) => {
+	// console.log(userid);
+	await fetch(`${order_API}order/${user}`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			
+		},
+		
+	})
+		.then((res) => {
+						return res.json();
+		})
+		.then((data) => {
+			console.log("ck"+data);
+			
 		});
 };

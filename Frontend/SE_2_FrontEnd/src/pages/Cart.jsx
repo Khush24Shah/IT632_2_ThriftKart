@@ -4,6 +4,7 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import {addorder} from "../data/order"
 
 import { useNavigate } from "react-router-dom";
 import React, { useEffect,useState } from "react";
@@ -170,7 +171,14 @@ const Cart = () => {
 		setPlusMinus(plusMinus + 1);
 	};
 	const handleMinus = () => {
-		if (plusMinus > 1) setPlusMinus(plusMinus - 1);
+		if(plusMinus > 1)
+    {
+        setPlusMinus(plusMinus - 1)
+    }
+    else
+    {
+
+    }
 	};
 
   const [cartData,setCartData] = useState({});
@@ -187,8 +195,7 @@ const Cart = () => {
       script.onerror = () => {
           resolve(false);
       }
-      alert("cliked");
-      console.log("clicked");
+      
     })
     
   
@@ -211,7 +218,10 @@ const Cart = () => {
         "name": "ThriftKart",
         "description": "Used Goods Buying and selling system",
         "handler": function (response){
-            alert("successfull");
+            alert("order placed successfull");
+            addorder(cartData.userId);
+            return navigate("/Order");
+            
             
         },
        
@@ -263,6 +273,7 @@ const Cart = () => {
     await deleteCart(cartData?._id,(data)=>{
       console.log(data);
       setToggle(!toggle);
+      window.location.reload();
     })
   }
  
@@ -285,11 +296,12 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cartData && cartData?.products && cartData?.products?.length>0 && cartData?.products.map((product,index)=>{
+              
               return <React.Fragment key={index}>
               <Product>
               <ProductDetail>
                 <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                    <FaTrash/>
+                   
                 <Details>
                   <ProductName>
                     <b>Product:</b> {product?.name}
