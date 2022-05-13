@@ -160,7 +160,7 @@ const Product = () => {
       <Navbar />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src={'/'+product?.name+'.jpg'} />
         </ImgContainer>
         <InfoContainer>
           <Title>{product.name}</Title>
@@ -171,7 +171,7 @@ const Product = () => {
             tristique tortor pretium ut. Curabitur elit justo, consequat id
             condimentum ac, volutpat ornare.
           </Desc>
-          <Price>₹ {product?.price}</Price>
+          <Price>₹ {product.price}</Price>
           <FilterContainer>
           </FilterContainer>
           <AddContainer>

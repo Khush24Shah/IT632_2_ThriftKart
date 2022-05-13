@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { addToCart } from "../helper/cart";
 import { addToWishlist } from "../helper/wishlist";
+import s2 from "../pages/s2.jpg";
 const Info = styled.div`
   opacity: 0;
   width: 100%;
@@ -92,7 +93,8 @@ console.log(item)
   return (
     <Container>
       <Circle />
-      <Image src={item.img} />
+      {console.log('/'+item.name+'.jpg')}
+      <Image src={'/'+item.name+'.jpg'} />
       <Info>
         <Icon>
           <ShoppingCartOutlined onClick={(e)=>addCart(e)} />

@@ -106,6 +106,7 @@ const ProductAdd = () => {
   const AddingProducts = async(event) =>{
     event.preventDefault();
     await padd(userData,d=>{console.log(d)});
+    alert("product added");
   
   }
   return (

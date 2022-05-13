@@ -101,6 +101,7 @@ const Register = () => {
           ...userData,
           hashedOTP:d,
         })
+        alert("otp sent");
        console.log(d);
       })
   }
